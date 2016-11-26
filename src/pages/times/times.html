@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>ASA Times</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1>{{ swimmer.first_name }} {{ swimmer.last_name }}</h1>
+  <h2>Individual best swim times</h2>
+
+  <section *ngFor="let course_type of config.data.course_types">
+    <ion-list>
+      <ion-list-header>{{course_type.name}}</ion-list-header>
+      <ion-item *ngFor="let time of swimmer.times | coursetype:course_type.code">
+        <h2 item-right><display-time [time]="time.time">{{ time.time }}</display-time></h2>
+        <h2>{{ config.data.races[time.race_type].name }} ({{ time.course_type }})</h2>
+        <p>{{ time.meet_name }}</p>
+        <p>{{ time.venue }} {{ time.date }}</p>
+      </ion-item>
+    </ion-list>
+  </section>
+
+</ion-content>
