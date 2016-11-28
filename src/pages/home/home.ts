@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-import { NavController } from 'ionic-angular';
-
+import { NavController }      from 'ionic-angular';
+import { TimesPage }          from '../../pages/times/times';
+import { Swimmer }            from '../../models/swimmer';
+import { AsaService }         from '../../app/asa.service';
 
 @Component({
   selector: 'page-home',
@@ -10,11 +12,14 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  swimmers :Array<any> = [];
-  asanum :String;
+  SWIMMERS_STORE :string = 'swimmers';
 
-  constructor(public navCtrl: NavController, private storage: Storage) {
-    storage.get('swimmers').then((val) => {
+  errorMessage: string;
+  swimmers :Array<any> = [];
+  asanum :string;
+
+  constructor(public navCtrl: NavController, private storage: Storage, private asaService: AsaService) {
+    storage.get(this.SWIMMERS_STORE).then((val) => {
       console.log("Got swimmers: " + val);
       if (val) {
         this.swimmers = JSON.parse(val);
@@ -23,9 +28,26 @@ export class HomePage {
   }
 
   public addSwimmer() {
-    console.log("Adding swimmer: " + this.asanum);
-    this.swimmers.push(this.asanum);
-    this.storage.set("swimmers", JSON.stringify(this.swimmers));
+    this.asaService.getSwimmer(this.asanum).subscribe(
+        swimmer => {
+          let newSwimmer = new Swimmer(this.asanum);
+          newSwimmer.setData(swimmer);
+          console.log(newSwimmer);
+          this.swimmers.push(newSwimmer);
+          this.storage.set(this.SWIMMERS_STORE, JSON.stringify(this.swimmers));
+        },
+        error =>  this.errorMessage = <any>error);
+  }
+
+  public selectSwimmer(swimmer :Swimmer) {
+      this.navCtrl.push(TimesPage, {
+        swimmer: swimmer
+      });
+  }
+
+  public removeSwimmers() {
+    this.storage.remove(this.SWIMMERS_STORE);
+    this.swimmers = [];
   }
 
 }

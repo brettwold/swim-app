@@ -7,17 +7,24 @@
 <ion-content padding>
   <h2>SwimApp</h2>
   <p>Enter an ASA number below to add a swimmer</p>
-  <ion-item>
-    <ion-label fixed>ASA Number</ion-label>
-    <ion-input type="text" [(ngModel)]="asanum"></ion-input>
-  </ion-item>
-
-  <button ion-button (click)="addSwimmer()">Add</button>
+  <ion-grid>
+    <ion-row>
+      <ion-item>
+        <ion-label stacked>ASA Number</ion-label>
+        <ion-input type="text" [(ngModel)]="asanum"></ion-input>
+      </ion-item>
+      <button ion-button (click)="addSwimmer()">Add</button>
+    </ion-row>
+  </ion-grid>
 
   <ion-list>
     <ion-list-header>Swimmers</ion-list-header>
-    <ion-item *ngFor="let swimmer of swimmers">
-      {{ swimmer }}
+    <ion-item *ngFor="let swimmer of swimmers" (click)="selectSwimmer(swimmer)">
+      <h2>{{ swimmer.first_name }} {{ swimmer.last_name }}</h2>
+      <h3>{{ swimmer.asa_num }}</h3>
+      <p>{{ swimmer.club }}</p>
     </ion-item>
   </ion-list>
+
+  <button ion-button (click)="removeSwimmers()">Clear</button>
 </ion-content>

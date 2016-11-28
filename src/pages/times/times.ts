@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { Time }           from './time';
-import { AsaService }     from './asa.service';
-import { SwimData }       from './swimdata.service';
+import { AsaService }     from '../../app/asa.service';
+import { Swimmer }        from '../../models/swimmer';
+import { SwimData }       from '../../app/swimdata.service';
 
 @Component({
   selector: 'page-home',
@@ -11,19 +12,21 @@ import { SwimData }       from './swimdata.service';
 })
 export class TimesPage {
   errorMessage: string;
-  swimmer: any = {};
+  swimmer: Swimmer;
   mode = 'Observable';
   config: any = {};
 
   constructor(public navCtrl: NavController,
+      public params: NavParams,
+      public viewCtrl: ViewController,
       private asaService: AsaService,
       private swimData: SwimData) {
-    this.getTimes(939148);
-    this.config = swimData;
+            this.swimmer = this.params.get('swimmer');
+            this.config = swimData;
   }
 
-  getTimes(id) {
-    this.asaService.getTimes(id)
+  getSwimmer(id) {
+    this.asaService.getSwimmer(id)
                      .subscribe(
                        swimmer => this.swimmer = swimmer,
                        error =>  this.errorMessage = <any>error);

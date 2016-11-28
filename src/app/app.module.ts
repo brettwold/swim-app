@@ -4,14 +4,17 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
+
+import { AsaService } from './asa.service';
+import { TimeUtils } from './timeutils.service';
+import { SwimData } from './swimdata.service';
+
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TimesPage } from '../pages/times/times';
-import { AsaService } from '../pages/times/asa.service';
-import { TimeUtils } from '../pages/times/timeutils';
-import { SwimData } from '../pages/times/swimdata.service';
+
 import { DisplayTimeComponent }    from '../pages/times/displaytime';
 import { CourseTypePipe } from '../pages/times/coursetype.pipe'
 
@@ -38,7 +41,7 @@ import { CourseTypePipe } from '../pages/times/coursetype.pipe'
     ContactPage,
     HomePage,
     TabsPage,
-    TimesPage
+    TimesPage,
   ],
   providers: [
     Storage,

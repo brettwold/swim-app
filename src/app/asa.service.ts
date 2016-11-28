@@ -1,9 +1,8 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Time }           from './time';
 import { Observable }     from 'rxjs/Observable';
 import { SwimData }       from './swimdata.service';
-import { TimeUtils }      from './timeutils';
+import { TimeUtils }      from './timeutils.service';
 
 //import 'moment';
 import 'rxjs/Rx';
@@ -25,7 +24,7 @@ export class AsaService {
 
   }
 
-  getTimes (id): Observable<any> {
+  getSwimmer (id): Observable<any> {
     let url = this.INDIVIDUAL_BEST + id;
     return this.http.get(url)
                     .map(res => this.extractData(res))
