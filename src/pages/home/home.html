@@ -9,20 +9,36 @@
   <p>Enter an ASA number below to add a swimmer</p>
   <ion-grid>
     <ion-row>
-      <ion-item>
+      <ion-col>
         <ion-label stacked>ASA Number</ion-label>
         <ion-input type="text" [(ngModel)]="asanum"></ion-input>
-      </ion-item>
-      <button ion-button (click)="addSwimmer()">Add</button>
+      </ion-col>
+      <ion-col  width-20>
+         <button ion-button (click)="addSwimmer()">Add</button>
+      </ion-col>
     </ion-row>
   </ion-grid>
 
   <ion-list>
     <ion-list-header>Swimmers</ion-list-header>
-    <ion-item *ngFor="let swimmer of swimmers" (click)="selectSwimmer(swimmer)">
-      <h2>{{ swimmer.first_name }} {{ swimmer.last_name }}</h2>
-      <h3>{{ swimmer.asa_num }}</h3>
-      <p>{{ swimmer.club }}</p>
+    <ion-item *ngFor="let swimmer of swimmers | values:'asa_num'">
+      <ion-grid>
+        <ion-row>
+          <ion-col (click)="selectSwimmer(swimmer)" width-10>
+            <ion-icon name="man" *ngIf="swimmer.gender == 'M'"></ion-icon>
+            <ion-icon name="woman" *ngIf="swimmer.gender == 'F'"></ion-icon>
+            <ion-icon name="help" *ngIf="!swimmer.gender"></ion-icon>
+          </ion-col>
+          <ion-col (click)="selectSwimmer(swimmer)">
+            <h2>{{ swimmer.first_name }} {{ swimmer.last_name }}</h2>
+            <h3>{{ swimmer.asa_num }} {{ swimmer.gender ? config.genders[swimmer.gender].name : "??" }} {{ swimmer.dob | date:'dd-MMM-yyyy' }}</h3>
+            <p>{{ swimmer.club }}</p>
+          </ion-col>
+          <ion-col width-20>
+            <button ion-button class="button-info" (click)="editSwimmer(swimmer)" item-right>Edit</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-item>
   </ion-list>
 

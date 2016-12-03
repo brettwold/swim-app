@@ -69,8 +69,8 @@ export class AsaService {
     let strokeArr = str.split(" ");
 
     if(strokeArr.length >= 2) {
-      for(let idx in this.swimData.data.races) {
-        let race = this.swimData.data.races[idx];
+      for(let idx in this.swimData.races) {
+        let race = this.swimData.races[idx];
         if(race.distance == strokeArr[0] &&
           race.stroke == this.STROKE_LOOKUP[strokeArr[1]] &&
           race.course_type == data.course_type) {
@@ -136,11 +136,11 @@ export class AsaService {
   }
 
   private getAsaStrokeCode(stroke_type) {
-    return this.swimData.data.races[stroke_type].asa_stroke
+    return this.swimData.races[stroke_type].asa_stroke
   }
 
   private getAsaCourseCode(stroke_type) {
-    return this.swimData.data.races[stroke_type].asa_course
+    return this.swimData.races[stroke_type].asa_course
   }
 
   private extractData(res: Response) {

@@ -5,18 +5,21 @@ import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
-import { AsaService } from './asa.service';
-import { TimeUtils } from './timeutils.service';
-import { SwimData } from './swimdata.service';
+import { AsaService } from '../services/asa.service';
+import { TimeUtils } from '../services/timeutils.service';
+import { SwimData } from '../services/swimdata.service';
+import { SwimmersService } from '../services/swimmers.service';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TimesPage } from '../pages/times/times';
+import { SwimmerEditPage } from '../pages/swimmer/swimmer';
 
-import { DisplayTimeComponent }    from '../pages/times/displaytime';
-import { CourseTypePipe } from '../pages/times/coursetype.pipe'
+import { DisplayTimeComponent }    from '../models/displaytime';
+import { CourseTypePipe } from '../models/coursetype.pipe'
+import { ValuesPipe } from '../models/values.pipe'
 
 @NgModule({
   declarations: [
@@ -26,8 +29,10 @@ import { CourseTypePipe } from '../pages/times/coursetype.pipe'
     HomePage,
     TabsPage,
     TimesPage,
+    SwimmerEditPage,
     DisplayTimeComponent,
-    CourseTypePipe
+    CourseTypePipe,
+    ValuesPipe
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -42,12 +47,14 @@ import { CourseTypePipe } from '../pages/times/coursetype.pipe'
     HomePage,
     TabsPage,
     TimesPage,
+    SwimmerEditPage
   ],
   providers: [
     Storage,
     AsaService,
     SwimData,
-    TimeUtils
+    TimeUtils,
+    SwimmersService
   ]
 })
 export class AppModule {}

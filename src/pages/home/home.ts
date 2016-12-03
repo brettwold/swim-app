@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
-import { Storage } from '@ionic/storage';
 
 import { NavController }      from 'ionic-angular';
 import { TimesPage }          from '../../pages/times/times';
+import { SwimmerEditPage }    from '../../pages/swimmer/swimmer';
+
 import { Swimmer }            from '../../models/swimmer';
-import { AsaService }         from '../../app/asa.service';
+
+import { SwimData }           from '../../services/swimdata.service';
+import { AsaService }         from '../../services/asa.service';
+import { SwimmersService }    from '../../services/swimmers.service';
 
 @Component({
   selector: 'page-home',
@@ -12,18 +16,19 @@ import { AsaService }         from '../../app/asa.service';
 })
 export class HomePage {
 
-  SWIMMERS_STORE :string = 'swimmers';
-
   errorMessage: string;
-  swimmers :Array<any> = [];
   asanum :string;
+  swimmers :any;
+  mode = 'Observable';
+  config: any = {};
 
-  constructor(public navCtrl: NavController, private storage: Storage, private asaService: AsaService) {
-    storage.get(this.SWIMMERS_STORE).then((val) => {
-      console.log("Got swimmers: " + val);
-      if (val) {
-        this.swimmers = JSON.parse(val);
-      }
+  constructor(public navCtrl: NavController,
+          private asaService: AsaService,
+          private swimmersService: SwimmersService,
+          private swimData: SwimData) {
+    swimmersService.load().then((swimmers) => {
+      this.swimmers = swimmers;
+      this.config = swimData;
     });
   }
 
@@ -32,22 +37,26 @@ export class HomePage {
         swimmer => {
           let newSwimmer = new Swimmer(this.asanum);
           newSwimmer.setData(swimmer);
-          console.log(newSwimmer);
-          this.swimmers.push(newSwimmer);
-          this.storage.set(this.SWIMMERS_STORE, JSON.stringify(this.swimmers));
+          this.swimmers = this.swimmersService.store(newSwimmer);
+          console.log(this.swimmers);
         },
         error =>  this.errorMessage = <any>error);
   }
 
+  public editSwimmer(swimmer: Swimmer) {
+    this.navCtrl.push(SwimmerEditPage, {
+      swimmer: swimmer
+    });
+  }
+
   public selectSwimmer(swimmer :Swimmer) {
-      this.navCtrl.push(TimesPage, {
-        swimmer: swimmer
-      });
+    this.navCtrl.push(TimesPage, {
+      swimmer: swimmer
+    });
   }
 
   public removeSwimmers() {
-    this.storage.remove(this.SWIMMERS_STORE);
-    this.swimmers = [];
+    this.swimmers = this.swimmersService.clear();
   }
 
 }

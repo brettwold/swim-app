@@ -2,16 +2,17 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { Time }           from './time';
-import { Swimmer }        from '../../models/swimmer';
-
 import { AsaService }     from '../../services/asa.service';
 import { SwimData }       from '../../services/swimdata.service';
+import { SwimmersService }       from '../../services/swimmers.service';
+
+import { Swimmer }        from '../../models/swimmer';
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'times.html'
+  selector: 'swimmer',
+  templateUrl: 'swimmer.html'
 })
-export class TimesPage {
+export class SwimmerEditPage {
   errorMessage: string;
   swimmer: Swimmer;
   mode = 'Observable';
@@ -21,15 +22,15 @@ export class TimesPage {
       public params: NavParams,
       public viewCtrl: ViewController,
       private asaService: AsaService,
-      private swimData: SwimData) {
+      private swimData: SwimData,
+      private swimmersService: SwimmersService) {
             this.swimmer = this.params.get('swimmer');
             this.config = swimData;
   }
 
-  getSwimmer(id) {
-    this.asaService.getSwimmer(id)
-                     .subscribe(
-                       swimmer => this.swimmer = swimmer,
-                       error =>  this.errorMessage = <any>error);
+  public save(swimmer: Swimmer) {
+    console.log("Saving swimmer");
+    this.swimmersService.store(swimmer);
+    this.navCtrl.pop();
   }
 }
