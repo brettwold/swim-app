@@ -1,11 +1,12 @@
 export class Swimmer {
-  asa_num :string;
+  regno :string;
   first_name : string;
   last_name: string;
   times: Array<any>;
+  club: string;
 
   constructor(asa_num :string) {
-    this.asa_num = asa_num;
+    this.regno = asa_num;
   }
 
   public setData(swimmerData: any) {

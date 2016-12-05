@@ -5,8 +5,12 @@
   "typescript": true,
   "proxies": [
     {
-      "path": "/api",
+      "path": "/asa",
       "proxyUrl": "https://swimmingresults.org/"
+    },
+    {
+      "path": "/api",
+      "proxyUrl": "http://localhost:3000"
     }
   ]
 }

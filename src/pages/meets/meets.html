@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Meet Entry</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-list-header>Meets</ion-list-header>
+    <ion-item *ngFor="let meet of meets">
+      {{ meet.name }}
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -15,6 +15,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TimesPage } from '../pages/times/times';
+import { MeetsPage } from '../pages/meets/meets';
 import { SwimmerEditPage } from '../pages/swimmer/swimmer';
 
 import { DisplayTimeComponent }    from '../models/displaytime';
@@ -29,6 +30,7 @@ import { ValuesPipe } from '../models/values.pipe'
     HomePage,
     TabsPage,
     TimesPage,
+    MeetsPage,
     SwimmerEditPage,
     DisplayTimeComponent,
     CourseTypePipe,
@@ -47,6 +49,7 @@ import { ValuesPipe } from '../models/values.pipe'
     HomePage,
     TabsPage,
     TimesPage,
+    MeetsPage,
     SwimmerEditPage
   ],
   providers: [

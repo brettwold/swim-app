@@ -21,7 +21,7 @@
 
   <ion-list>
     <ion-list-header>Swimmers</ion-list-header>
-    <ion-item *ngFor="let swimmer of swimmers | values:'asa_num'">
+    <ion-item *ngFor="let swimmer of swimmers">
       <ion-grid>
         <ion-row>
           <ion-col (click)="selectSwimmer(swimmer)" width-10>
@@ -31,7 +31,7 @@
           </ion-col>
           <ion-col (click)="selectSwimmer(swimmer)">
             <h2>{{ swimmer.first_name }} {{ swimmer.last_name }}</h2>
-            <h3>{{ swimmer.asa_num }} {{ swimmer.gender ? config.genders[swimmer.gender].name : "??" }} {{ swimmer.dob | date:'dd-MMM-yyyy' }}</h3>
+            <h3>{{ swimmer.regno }} {{ swimmer.gender ? config.genders[swimmer.gender].name : "??" }} {{ swimmer.dob | date:'dd-MMM-yyyy' }}</h3>
             <p>{{ swimmer.club }}</p>
           </ion-col>
           <ion-col width-20>

@@ -2,11 +2,15 @@ import { Injectable }     from '@angular/core';
 import { Storage }        from '@ionic/storage';
 import { Swimmer }        from '../models/swimmer';
 
+import { Subject }     from 'rxjs/Subject';
+import 'rxjs/Rx';
+
 @Injectable()
 export class SwimmersService {
   SWIMMERS_STORE :string = 'swimmers';
 
   swimmers :any = {};
+  swimmersChange: Subject<any> = new Subject<any>();
 
   constructor(private storage: Storage) {
 
@@ -20,22 +24,22 @@ export class SwimmersService {
           this.swimmers = JSON.parse(val);
           resolve(this.swimmers);
         } else {
-          reject("Failed to load swimmers");
+          resolve({});
         }
       });
     });
   }
 
   store(swimmer: Swimmer) {
-    console.log("Storing swimmer: " + swimmer.asa_num);
-    this.swimmers[swimmer.asa_num] = swimmer;
+    console.log("Storing swimmer: " + swimmer.regno);
+    this.swimmers[swimmer.regno] = swimmer;
     this.storage.set(this.SWIMMERS_STORE, JSON.stringify(this.swimmers));
-    return this.swimmers;
+    this.swimmersChange.next(this.swimmers);
   }
 
   clear() {
     this.storage.remove(this.SWIMMERS_STORE);
     this.swimmers = {};
-    return this.swimmers;
+    this.swimmersChange.next(this.swimmers);
   }
 }
