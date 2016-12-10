@@ -1,6 +1,6 @@
 {
   "name": "SwimApp",
-  "app_id": "",
+  "app_id": "io.brettwold.swimapp",
   "v2": true,
   "typescript": true,
   "proxies": [

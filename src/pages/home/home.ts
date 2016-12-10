@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { NavController }      from 'ionic-angular';
 import { TimesPage }          from '../../pages/times/times';
@@ -39,6 +39,8 @@ export class HomePage {
     this._subscription = swimmersService.swimmersChange.subscribe((value) => {
       this.refreshSwimmers(value);
     });
+
+    console.log("Hello");
   }
 
   public refreshSwimmers(swimmers) {
@@ -46,6 +48,13 @@ export class HomePage {
     for(let regno in swimmers) {
       this.swimmers.push(swimmers[regno]);
     }
+  }
+
+  public refresh() {
+    this.swimmersService.load().then((swimmers) => {
+      console.log("Got swimimiiers: " + swimmers);
+      this.refreshSwimmers(swimmers);
+    });
   }
 
   public addSwimmer() {

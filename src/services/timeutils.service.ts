@@ -4,7 +4,6 @@ import { Injectable }     from '@angular/core';
 export class TimeUtils {
 
   public getHundredthsFromString(timeStr) {
-    let mins :number = 0;
     let tenths :number = 0;
 
     if(timeStr.indexOf(':') > -1) {

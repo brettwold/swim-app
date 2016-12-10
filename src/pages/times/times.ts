@@ -1,7 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
-import { Time }           from './time';
 import { Swimmer }        from '../../models/swimmer';
 
 import { AsaService }     from '../../services/asa.service';

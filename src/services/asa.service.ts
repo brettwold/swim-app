@@ -1,9 +1,17 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Platform }       from 'ionic-angular';
 import { Observable }     from 'rxjs/Observable';
 import { SwimData }       from './swimdata.service';
 import { TimeUtils }      from './timeutils.service';
 import { Swimmer }        from '../models/swimmer';
+
+//const platform = new Platform();
+//if(this.platform.is('core')) {
+//  const ENV = require('../config/environment.dev');
+//} else {
+  import { ENV }            from '../config/environment.prod';
+//}
 
 //import 'moment';
 import 'rxjs/Rx';
@@ -12,7 +20,7 @@ declare var jQuery:any;
 
 @Injectable()
 export class AsaService {
-  private INDIVIDUAL_BEST = '/asa/individualbest/personal_best.php?mode=A&tiref=';
+  private INDIVIDUAL_BEST = '/individualbest/personal_best.php?mode=A&tiref=';
   private STROKE_LOOKUP = {
     'Freestyle': 'FS',
     'Breaststroke': 'BR',
@@ -22,11 +30,11 @@ export class AsaService {
   };
 
   constructor (private http: Http, private swimData: SwimData, private timeUtils: TimeUtils) {
-
+    console.log( ENV.ASA_URL );
   }
 
   getSwimmer (id): Observable<Swimmer> {
-    let url = this.INDIVIDUAL_BEST + id;
+    let url = ENV.ASA_URL + this.INDIVIDUAL_BEST + id;
     return this.http.get(url)
                     .map(res => this.extractData(res))
                     .catch(this.handleError);
@@ -146,7 +154,6 @@ export class AsaService {
 
   private extractData(res :Response) {
 
-    let body = res.text();
     let dom = jQuery(res.text());
 
     let swimmer :any = {};

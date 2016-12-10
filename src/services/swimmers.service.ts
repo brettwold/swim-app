@@ -1,5 +1,6 @@
 import { Injectable }     from '@angular/core';
 import { Storage }        from '@ionic/storage';
+import { Platform }       from 'ionic-angular';
 import { Swimmer }        from '../models/swimmer';
 
 import { Subject }     from 'rxjs/Subject';
@@ -12,20 +13,22 @@ export class SwimmersService {
   swimmers :any = {};
   swimmersChange: Subject<any> = new Subject<any>();
 
-  constructor(private storage: Storage) {
+  constructor(private storage :Storage, private platform :Platform) {
 
   }
 
   load(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.storage.get(this.SWIMMERS_STORE).then((val) => {
-        console.log("Got swimmers: " + val);
-        if (val) {
-          this.swimmers = JSON.parse(val);
-          resolve(this.swimmers);
-        } else {
-          resolve({});
-        }
+      this.platform.ready().then(() => {
+        this.storage.get(this.SWIMMERS_STORE).then((val) => {
+          console.log("Got swimmers: " + val);
+          if (val) {
+            this.swimmers = JSON.parse(val);
+            resolve(this.swimmers);
+          } else {
+            resolve({});
+          }
+        });
       });
     });
   }
@@ -33,8 +36,10 @@ export class SwimmersService {
   store(swimmer: Swimmer) {
     console.log("Storing swimmer: " + swimmer.regno);
     this.swimmers[swimmer.regno] = swimmer;
-    this.storage.set(this.SWIMMERS_STORE, JSON.stringify(this.swimmers));
-    this.swimmersChange.next(this.swimmers);
+    this.storage.set(this.SWIMMERS_STORE, JSON.stringify(this.swimmers)).then((result) => {
+      console.log("Stored swimmers: " + result);
+      this.swimmersChange.next(this.swimmers);
+    });
   }
 
   clear() {

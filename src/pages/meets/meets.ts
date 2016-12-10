@@ -1,7 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
-import { Time }           from './time';
 import { Meet }        from '../../models/meet';
 
 import { MeetService }     from '../../services/meet.service';

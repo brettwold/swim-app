@@ -1,11 +1,10 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>SwimApp</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>SwimApp</h2>
   <p>Enter an ASA number below to add a swimmer</p>
   <ion-grid>
     <ion-row>
@@ -43,4 +42,7 @@
   </ion-list>
 
   <button ion-button (click)="removeSwimmers()">Clear</button>
+
+
+  <button ion-button (click)="refresh()">Refresh</button>
 </ion-content>
