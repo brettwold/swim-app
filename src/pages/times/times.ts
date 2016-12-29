@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
+import { HistoryPage }          from '../../pages/times/history';
+
 import { Swimmer }        from '../../models/swimmer';
 
 import { AsaService }     from '../../services/asa.service';
@@ -15,19 +17,16 @@ import { SwimtimesService }           from "../../providers/swimtimes";
 export class TimesPage {
   errorMessage: string;
   swimmer: Swimmer;
-  times: any;
   mode = 'Observable';
-  config: any = {};
 
   constructor(public navCtrl: NavController,
       public params: NavParams,
       public viewCtrl: ViewController,
       private asaService: AsaService,
-      private swimData: SwimData,
+      public config: SwimData,
       private swimtimesService: SwimtimesService) {
             this.swimmer = this.params.get('swimmer');
             console.log(this.swimmer);
-            this.config = swimData;
   }
 
   getSwimmer(id) {
@@ -44,9 +43,14 @@ export class TimesPage {
                             for(let sTime in times) {
                               this.swimtimesService.save(times[sTime]);
                             }
+                            this.navCtrl.push(HistoryPage, {
+                              swimmer: this.swimmer,
+                              times: times
+                            });
                           },
                           (error) =>  {
                             this.errorMessage = <any>error
                           });
   }
+
 }

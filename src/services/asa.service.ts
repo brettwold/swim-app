@@ -145,8 +145,7 @@ export class AsaService {
   private processAllTimeTables(dom, times, regno, race_type) {
     let self = this;
 
-    dom.find('#rankTable').each(function(rankTableIndex, rankTable) {
-      jQuery(rankTable).find('tr').each(function(i, row) {
+    dom.find('#rankTable').first().find('tr').each(function(i, row) {
         let time = new SwimTime();
         let selectcol = jQuery(row).find('td');
 
@@ -165,7 +164,7 @@ export class AsaService {
           times.push(time);
         }
       });
-    });
+
   }
 
   private getAsaStrokeCode(race_type) {
@@ -192,6 +191,7 @@ export class AsaService {
     let times: Array<SwimTime> = new Array();
 
     this.processAllTimeTables(dom, times, regno, race_type);
+
     return times;
   }
 

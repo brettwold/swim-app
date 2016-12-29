@@ -17,6 +17,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TimesPage } from '../pages/times/times';
+import { HistoryPage } from '../pages/times/history';
 import { MeetsPage } from '../pages/meets/meets';
 import { SwimmerEditPage } from '../pages/swimmer/swimmer';
 
@@ -32,6 +33,7 @@ import { ValuesPipe } from '../models/values.pipe'
     HomePage,
     TabsPage,
     TimesPage,
+    HistoryPage,
     MeetsPage,
     SwimmerEditPage,
     DisplayTimeComponent,
@@ -51,6 +53,7 @@ import { ValuesPipe } from '../models/values.pipe'
     HomePage,
     TabsPage,
     TimesPage,
+    HistoryPage,
     MeetsPage,
     SwimmerEditPage
   ],

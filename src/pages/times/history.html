@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>ASA Times</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1>{{ swimmer.first_name }} {{ swimmer.last_name }}</h1>
+  <h2>{{ race_type.name }}</h2>
+
+  <ion-list>
+    <ion-list-header></ion-list-header>
+    <ion-item *ngFor="let time of times">
+      <h2 item-right><display-time [time]="time.time">{{ time.time }}</display-time></h2>
+      <h2>{{ time.date }}</h2>
+      <p>{{ time.meet_name }}</p>
+      <p>{{ time.venue }}</p>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
