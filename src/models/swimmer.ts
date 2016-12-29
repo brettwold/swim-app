@@ -1,4 +1,5 @@
 export class Swimmer {
+  _id :string;
   regno :string;
   first_name :string;
   last_name :string;
@@ -7,11 +8,7 @@ export class Swimmer {
   dob :string;
   gender :string;
 
-  constructor(asa_num :string) {
-    this.regno = asa_num;
-  }
-
-  public setData(swimmerData :any) {
+  constructor(swimmerData :any) {
     Object.assign(this, swimmerData);
   }
 

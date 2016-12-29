@@ -5,12 +5,14 @@ import { Observable }     from 'rxjs/Observable';
 import { SwimData }       from './swimdata.service';
 import { TimeUtils }      from './timeutils.service';
 import { Swimmer }        from '../models/swimmer';
+import { SwimTime }        from '../models/swimtime';
 
 //const platform = new Platform();
 //if(this.platform.is('core')) {
 //  const ENV = require('../config/environment.dev');
 //} else {
-  import { ENV }            from '../config/environment.prod';
+  //import { ENV }            from '../config/environment.prod';
+  import { ENV }            from '../config/environment.dev';
 //}
 
 //import 'moment';
@@ -20,7 +22,10 @@ declare var jQuery:any;
 
 @Injectable()
 export class AsaService {
-  private INDIVIDUAL_BEST = '/individualbest/personal_best.php?mode=A&tiref=';
+  private INDIVIDUAL_BEST = 'individualbest/personal_best.php?mode=A&tiref=';
+  private STROKE_HISTORY = 'individualbest/personal_best_time_date.php?mode=A&tiref='
+  private ATTR_STOKE_TYPE = '&tstroke='
+  private ATTR_COURSE_TYPE = '&tcourse='
   private STROKE_LOOKUP = {
     'Freestyle': 'FS',
     'Breaststroke': 'BR',
@@ -35,8 +40,19 @@ export class AsaService {
 
   getSwimmer (id): Observable<Swimmer> {
     let url = ENV.ASA_URL + this.INDIVIDUAL_BEST + id;
+    console.log( url );
     return this.http.get(url)
                     .map(res => this.extractData(res))
+                    .catch(this.handleError);
+  }
+
+  getSwimmerTimes (id, stroke): Observable<SwimTime>  {
+    let asaStroke = this.getAsaStrokeCode(stroke);
+    let asaCourse = this.getAsaCourseCode(stroke);
+    let url = ENV.ASA_URL + this.STROKE_HISTORY + id + this.ATTR_STOKE_TYPE + asaStroke + this.ATTR_COURSE_TYPE + asaCourse;
+
+    return this.http.get(url)
+                    .map(res => this.extractTimes(res))
                     .catch(this.handleError);
   }
 
@@ -106,6 +122,11 @@ export class AsaService {
         if(selectcol.eq(0).text() != "") {
           time.course_type = course_type;
           self.processDistanceAndStroke(time, selectcol.eq(0).text().trim());
+          if(selectcol.eq(0).children()[0].tagName == 'A') {
+            time.more = true;
+          } else {
+            time.more = false;
+          }
           time.source = "ASA";
           time.time_formatted = selectcol.eq(1).text().trim();
           time.time = self.timeUtils.getHundredthsFromString(time.time_formatted);
@@ -122,15 +143,15 @@ export class AsaService {
     });
   }
 
-  private processAllTimeTables($, swimmer) {
+  private processAllTimeTables($, times) {
     $('#rankTable').each(function(rankTableIndex, rankTable) {
       $(rankTable).find('tr').each(function(i, row) {
-        let time :any = {};
+        let time = new SwimTime(this.timeUtils);
         let selectcol = $(row).find('td');
 
         if(selectcol.eq(0).text() != "") {
           time.source = "ASA";
-          time.time_formatted = selectcol.eq(0).text().trim();
+          time.setFormattedTime(selectcol.eq(0).text().trim());
           time.fina_points = selectcol.eq(1).text().trim();
           time.date = this.formatDate(selectcol.eq(3).text().trim());
           time.meet_name = selectcol.eq(4).text().trim();
@@ -138,7 +159,7 @@ export class AsaService {
           time.license = selectcol.eq(6).text().trim();
           time.level = selectcol.eq(7).text().trim();
           time.round = selectcol.eq(2).text().trim();
-          swimmer.times.push(time);
+          times.push(time);
         }
       });
     });
@@ -153,17 +174,30 @@ export class AsaService {
   }
 
   private extractData(res :Response) {
-
     let dom = jQuery(res.text());
-
     let swimmer :any = {};
     let names = dom.find('.rankingsContent p').first().text();
     this.processName(swimmer, names);
     this.processBestTimeTables(dom, swimmer);
 
-    let newSwimmer = new Swimmer(swimmer.regno);
-    newSwimmer.setData(swimmer);
+    let newSwimmer = new Swimmer(swimmer);
     return newSwimmer;
+  }
+
+  private extractTimes(res :Response) {
+    let dom = jQuery(res.text());
+    let times: Array<any>;
+
+    this.processAllTimeTables(dom, times);
+
+    // Swimmer.find({where: {regno: req.params.id}, include: INCLUDES }).then(function(storedswimmer) {
+    //   for(sTime in swimmer.times) {
+    //     swimmer.times[sTime].swimmer_id = storedswimmer.id;
+    //     swimmer.times[sTime].race_type = req.params.stroke;
+    //     SwimTime.upsert(swimmer.times[sTime].get());
+    //   }
+    // });
+    return times;
   }
 
   private handleError (error: Response | any) {

@@ -1,10 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
-import { Time }           from './time';
 import { AsaService }     from '../../services/asa.service';
 import { SwimData }       from '../../services/swimdata.service';
-import { SwimmersService }       from '../../services/swimmers.service';
+import { SwimmersService }       from '../../providers/swimmers';
 
 import { Swimmer }        from '../../models/swimmer';
 

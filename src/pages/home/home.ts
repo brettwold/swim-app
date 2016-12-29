@@ -8,7 +8,7 @@ import { Swimmer }            from '../../models/swimmer';
 
 import { SwimData }           from '../../services/swimdata.service';
 import { AsaService }         from '../../services/asa.service';
-import { SwimmersService }    from '../../services/swimmers.service';
+import { SwimmersService }           from "../../providers/swimmers";
 
 import { Subscription }     from 'rxjs/Subscription';
 import 'rxjs/Rx';
@@ -23,24 +23,19 @@ export class HomePage {
   errorMessage: string;
   asanum :string;
   swimmers :Array<Swimmer>;
-  config :any = {};
 
   _subscription :Subscription;
 
   constructor(public navCtrl: NavController,
           private asaService: AsaService,
           private swimmersService: SwimmersService,
-          private swimData: SwimData) {
-    swimmersService.load().then((swimmers) => {
-      this.refreshSwimmers(swimmers);
-      this.config = swimData;
-    });
+          private config: SwimData) {
+
+    this.refresh();
 
     this._subscription = swimmersService.swimmersChange.subscribe((value) => {
       this.refreshSwimmers(value);
     });
-
-    console.log("Hello");
   }
 
   public refreshSwimmers(swimmers) {

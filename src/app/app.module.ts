@@ -5,10 +5,11 @@ import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
+import { SwimmersService } from '../providers/swimmers';
+
 import { AsaService } from '../services/asa.service';
 import { TimeUtils } from '../services/timeutils.service';
 import { SwimData } from '../services/swimdata.service';
-import { SwimmersService } from '../services/swimmers.service';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
@@ -54,6 +55,7 @@ import { ValuesPipe } from '../models/values.pipe'
   ],
   providers: [
     Storage,
+    SwimmersService,
     AsaService,
     SwimData,
     TimeUtils,

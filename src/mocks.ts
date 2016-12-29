@@ -1,6 +1,8 @@
 import { Http, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 
+
+
 // IONIC:
 
 export class ConfigMock {
@@ -85,5 +87,7 @@ export class HttpMock {
 }
 
 export class ResponseMock {
-
+  public text(): string {
+    return "<div></div>";
+  }
 }
