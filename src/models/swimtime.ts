@@ -1,9 +1,11 @@
 import { TimeUtils }      from '../services/timeutils.service';
 
+const timeUtils = new TimeUtils();
+
 export class SwimTime {
   source: string;
   race_type: number;
-  date: Date;
+  date: string;
   time: number;
   time_orig: string;
   fina_points: number;
@@ -12,13 +14,15 @@ export class SwimTime {
   venue: string;
   license: string;
   level: number;
+  swimmer_regno: number;
+  more: boolean;
 
-  constructor (private timeUtils: TimeUtils) {
+  constructor () {
   }
 
   public setFormattedTime(timeStr :string) {
     this.time_orig = timeStr;
-    let tenths = this.timeUtils.getHundredthsFromString(timeStr);
+    let tenths = timeUtils.getHundredthsFromString(timeStr);
     this.time = tenths;
   }
 

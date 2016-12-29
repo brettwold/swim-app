@@ -6,6 +6,8 @@ import { Swimmer }        from '../../models/swimmer';
 import { AsaService }     from '../../services/asa.service';
 import { SwimData }       from '../../services/swimdata.service';
 
+import { SwimtimesService }           from "../../providers/swimtimes";
+
 @Component({
   selector: 'page-home',
   templateUrl: 'times.html'
@@ -13,6 +15,7 @@ import { SwimData }       from '../../services/swimdata.service';
 export class TimesPage {
   errorMessage: string;
   swimmer: Swimmer;
+  times: any;
   mode = 'Observable';
   config: any = {};
 
@@ -20,8 +23,10 @@ export class TimesPage {
       public params: NavParams,
       public viewCtrl: ViewController,
       private asaService: AsaService,
-      private swimData: SwimData) {
+      private swimData: SwimData,
+      private swimtimesService: SwimtimesService) {
             this.swimmer = this.params.get('swimmer');
+            console.log(this.swimmer);
             this.config = swimData;
   }
 
@@ -30,5 +35,18 @@ export class TimesPage {
                      .subscribe(
                        swimmer => this.swimmer = swimmer,
                        error =>  this.errorMessage = <any>error);
+  }
+
+  getAllTimes(race_type) {
+    this.asaService.getSwimmerTimes(this.swimmer.regno, race_type)
+                      .subscribe(
+                          (times) => {
+                            for(let sTime in times) {
+                              this.swimtimesService.save(times[sTime]);
+                            }
+                          },
+                          (error) =>  {
+                            this.errorMessage = <any>error
+                          });
   }
 }

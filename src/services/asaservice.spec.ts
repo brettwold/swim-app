@@ -24,7 +24,7 @@ describe('ASA Service', () => {
   when(mockedResponse.text()).thenReturn(besttimes);
 
   beforeEach(() => {
-      asaService = new AsaService(instance(mockedHttp), new SwimData(), new TimeUtils());
+      asaService = new AsaService(instance(mockedHttp), new SwimData());
   });
 
   it('should call get best times URL', () => {

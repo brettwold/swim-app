@@ -3,9 +3,10 @@ import { Http, Response } from '@angular/http';
 import { Platform }       from 'ionic-angular';
 import { Observable }     from 'rxjs/Observable';
 import { SwimData }       from './swimdata.service';
-import { TimeUtils }      from './timeutils.service';
 import { Swimmer }        from '../models/swimmer';
 import { SwimTime }        from '../models/swimtime';
+
+import * as moment from 'moment';
 
 //const platform = new Platform();
 //if(this.platform.is('core')) {
@@ -34,7 +35,7 @@ export class AsaService {
     'Individual': 'IM',
   };
 
-  constructor (private http: Http, private swimData: SwimData, private timeUtils: TimeUtils) {
+  constructor (private http: Http, private swimData: SwimData) {
     console.log( ENV.ASA_URL );
   }
 
@@ -46,13 +47,13 @@ export class AsaService {
                     .catch(this.handleError);
   }
 
-  getSwimmerTimes (id, stroke): Observable<SwimTime>  {
-    let asaStroke = this.getAsaStrokeCode(stroke);
-    let asaCourse = this.getAsaCourseCode(stroke);
+  getSwimmerTimes (id, race_type): Observable<SwimTime>  {
+    let asaStroke = this.getAsaStrokeCode(race_type);
+    let asaCourse = this.getAsaCourseCode(race_type);
     let url = ENV.ASA_URL + this.STROKE_HISTORY + id + this.ATTR_STOKE_TYPE + asaStroke + this.ATTR_COURSE_TYPE + asaCourse;
 
     return this.http.get(url)
-                    .map(res => this.extractTimes(res))
+                    .map(res => this.extractTimes(id, race_type, res))
                     .catch(this.handleError);
   }
 
@@ -72,8 +73,8 @@ export class AsaService {
     return str.replace(/\s{2,}/g, ' ').trim();
   }
 
-  private formatDate (str): String {
-    return str;//moment(str, 'DD/MM/YY').format('YYYY-MM-DD');
+  private formatDate (str): string {
+    return moment(str, 'DD/MM/YY').format('YYYY-MM-DD');
   }
 
   private processName (data :any, str :any) {
@@ -90,7 +91,7 @@ export class AsaService {
     }
   }
 
-  private processDistanceAndStroke(data, str) {
+  private processDistanceAndStroke(data, course_type, str) {
     let strokeArr = str.split(" ");
 
     if(strokeArr.length >= 2) {
@@ -98,7 +99,7 @@ export class AsaService {
         let race = this.swimData.races[idx];
         if(race.distance == strokeArr[0] &&
           race.stroke == this.STROKE_LOOKUP[strokeArr[1]] &&
-          race.course_type == data.course_type) {
+          race.course_type == course_type) {
           data.race_type = idx;
         }
       }
@@ -106,12 +107,12 @@ export class AsaService {
   }
 
   private processBestTimeTables(dom, swimmer) {
-    swimmer.times = [];
     let self = this;
+    swimmer.times = [];
 
     dom.find('#rankTable').each(function(rankTableIndex, rankTable) {
       jQuery(rankTable).find('tr').each(function(i, row) {
-        let time :any = {};
+        let time = new SwimTime();
         let selectcol = jQuery(row).find('td');
         let course_type = "LC";
 
@@ -120,16 +121,14 @@ export class AsaService {
         }
 
         if(selectcol.eq(0).text() != "") {
-          time.course_type = course_type;
-          self.processDistanceAndStroke(time, selectcol.eq(0).text().trim());
+          self.processDistanceAndStroke(time, course_type, selectcol.eq(0).text().trim());
           if(selectcol.eq(0).children()[0].tagName == 'A') {
             time.more = true;
           } else {
             time.more = false;
           }
           time.source = "ASA";
-          time.time_formatted = selectcol.eq(1).text().trim();
-          time.time = self.timeUtils.getHundredthsFromString(time.time_formatted);
+          time.setFormattedTime(selectcol.eq(1).text().trim());
           time.fina_points = selectcol.eq(2).text().trim();
           time.date = self.formatDate(selectcol.eq(3).text().trim());
           time.meet_name = selectcol.eq(4).text().trim();
@@ -143,17 +142,21 @@ export class AsaService {
     });
   }
 
-  private processAllTimeTables($, times) {
-    $('#rankTable').each(function(rankTableIndex, rankTable) {
-      $(rankTable).find('tr').each(function(i, row) {
-        let time = new SwimTime(this.timeUtils);
-        let selectcol = $(row).find('td');
+  private processAllTimeTables(dom, times, regno, race_type) {
+    let self = this;
+
+    dom.find('#rankTable').each(function(rankTableIndex, rankTable) {
+      jQuery(rankTable).find('tr').each(function(i, row) {
+        let time = new SwimTime();
+        let selectcol = jQuery(row).find('td');
 
         if(selectcol.eq(0).text() != "") {
+          time.swimmer_regno = regno;
+          time.race_type = race_type;
           time.source = "ASA";
           time.setFormattedTime(selectcol.eq(0).text().trim());
           time.fina_points = selectcol.eq(1).text().trim();
-          time.date = this.formatDate(selectcol.eq(3).text().trim());
+          time.date = self.formatDate(selectcol.eq(3).text().trim());
           time.meet_name = selectcol.eq(4).text().trim();
           time.venue = selectcol.eq(5).text().trim();
           time.license = selectcol.eq(6).text().trim();
@@ -165,12 +168,12 @@ export class AsaService {
     });
   }
 
-  private getAsaStrokeCode(stroke_type) {
-    return this.swimData.races[stroke_type].asa_stroke
+  private getAsaStrokeCode(race_type) {
+    return this.swimData.races[race_type].asa_stroke
   }
 
-  private getAsaCourseCode(stroke_type) {
-    return this.swimData.races[stroke_type].asa_course
+  private getAsaCourseCode(race_type) {
+    return this.swimData.races[race_type].asa_course
   }
 
   private extractData(res :Response) {
@@ -184,19 +187,11 @@ export class AsaService {
     return newSwimmer;
   }
 
-  private extractTimes(res :Response) {
+  private extractTimes(regno: string, race_type: number, res: Response) {
     let dom = jQuery(res.text());
-    let times: Array<any>;
+    let times: Array<SwimTime> = new Array();
 
-    this.processAllTimeTables(dom, times);
-
-    // Swimmer.find({where: {regno: req.params.id}, include: INCLUDES }).then(function(storedswimmer) {
-    //   for(sTime in swimmer.times) {
-    //     swimmer.times[sTime].swimmer_id = storedswimmer.id;
-    //     swimmer.times[sTime].race_type = req.params.stroke;
-    //     SwimTime.upsert(swimmer.times[sTime].get());
-    //   }
-    // });
+    this.processAllTimeTables(dom, times, regno, race_type);
     return times;
   }
 

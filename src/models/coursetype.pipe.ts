@@ -1,5 +1,8 @@
 import { Injectable }     from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
+import { SwimData }       from '../services/swimdata.service';
+
+const swimdata = new SwimData();
 
 @Pipe({
     name: 'coursetype',
@@ -9,7 +12,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CourseTypePipe implements PipeTransform {
     transform(items: any, args: string): any {
       if (items) {
-        return items.filter(item => item.course_type === args);
+        return items.filter(item => swimdata.races[item.race_type].course_type === args);
       }
     }
 }

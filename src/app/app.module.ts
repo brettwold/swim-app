@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { MyApp } from './app.component';
 
 import { SwimmersService } from '../providers/swimmers';
+import { SwimtimesService } from '../providers/swimtimes';
 
 import { AsaService } from '../services/asa.service';
 import { TimeUtils } from '../services/timeutils.service';
@@ -55,11 +56,11 @@ import { ValuesPipe } from '../models/values.pipe'
   ],
   providers: [
     Storage,
-    SwimmersService,
     AsaService,
     SwimData,
     TimeUtils,
-    SwimmersService
+    SwimmersService,
+    SwimtimesService
   ]
 })
 export class AppModule {}

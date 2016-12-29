@@ -13,9 +13,10 @@
       <ion-list-header>{{course_type.name}}</ion-list-header>
       <ion-item *ngFor="let time of swimmer.times | coursetype:course_type.code">
         <h2 item-right><display-time [time]="time.time">{{ time.time }}</display-time></h2>
-        <h2>{{ config.races[time.race_type].name }} ({{ time.course_type }})</h2>
+        <h2>{{ config.races[time.race_type].name }} ({{ config.races[time.race_type].course_type }})</h2>
         <p>{{ time.meet_name }}</p>
         <p>{{ time.venue }} {{ time.date }}</p>
+        <button ion-button class="button-info" (click)="getAllTimes(time.race_type)" item-right>More</button>
       </ion-item>
     </ion-list>
   </section>

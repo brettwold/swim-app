@@ -47,7 +47,6 @@ export class HomePage {
 
   public refresh() {
     this.swimmersService.load().then((swimmers) => {
-      console.log("Got swimimiiers: " + swimmers);
       this.refreshSwimmers(swimmers);
     });
   }
