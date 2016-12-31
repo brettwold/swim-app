@@ -10,7 +10,7 @@
     },
     {
       "path": "/api",
-      "proxyUrl": "http://localhost:3000"
+      "proxyUrl": "http://localhost:3456"
     }
   ]
 }

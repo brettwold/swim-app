@@ -6,11 +6,11 @@ import { SwimmerEditPage }    from '../../pages/swimmer/swimmer';
 
 import { Swimmer }            from '../../models/swimmer';
 
-import { SwimData }           from '../../services/swimdata.service';
-import { AsaService }         from '../../services/asa.service';
-import { SwimmersService }           from "../../providers/swimmers";
+import { SwimData }           from '../../providers/swimdata.service';
+import { AsaService }         from '../../providers/asa.service';
+import { SwimmersService }    from "../../providers/swimmers";
 
-import { Subscription }     from 'rxjs/Subscription';
+import { Subscription }       from 'rxjs/Subscription';
 import 'rxjs/Rx';
 
 @Component({

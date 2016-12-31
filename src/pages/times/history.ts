@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
-import { Swimmer }        from '../../models/swimmer';
+import { Swimmer }            from '../../models/swimmer';
 
-import { AsaService }     from '../../services/asa.service';
-import { SwimData }       from '../../services/swimdata.service';
-
-import { SwimtimesService }           from "../../providers/swimtimes";
+import { AsaService }         from '../../providers/asa.service';
+import { SwimData }           from '../../providers/swimdata.service';
+import { SwimtimesService }   from "../../providers/swimtimes";
 
 @Component({
   selector: 'page-home',

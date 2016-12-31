@@ -5,12 +5,13 @@ import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
+import { EnvService } from '../providers/env.service';
 import { SwimmersService } from '../providers/swimmers';
 import { SwimtimesService } from '../providers/swimtimes';
-
-import { AsaService } from '../services/asa.service';
-import { TimeUtils } from '../services/timeutils.service';
-import { SwimData } from '../services/swimdata.service';
+import { MeetService } from '../providers/meet.service';
+import { AsaService } from '../providers/asa.service';
+import { TimeUtils } from '../providers/timeutils.service';
+import { SwimData } from '../providers/swimdata.service';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
@@ -19,6 +20,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { TimesPage } from '../pages/times/times';
 import { HistoryPage } from '../pages/times/history';
 import { MeetsPage } from '../pages/meets/meets';
+import { MeetEntryPage } from '../pages/meets/meetentry';
+import { MeetDetailPage } from '../pages/meets/meetdetail';
 import { SwimmerEditPage } from '../pages/swimmer/swimmer';
 
 import { DisplayTimeComponent }    from '../models/displaytime';
@@ -35,6 +38,8 @@ import { ValuesPipe } from '../models/values.pipe'
     TimesPage,
     HistoryPage,
     MeetsPage,
+    MeetDetailPage,
+    MeetEntryPage,
     SwimmerEditPage,
     DisplayTimeComponent,
     CourseTypePipe,
@@ -55,15 +60,19 @@ import { ValuesPipe } from '../models/values.pipe'
     TimesPage,
     HistoryPage,
     MeetsPage,
+    MeetDetailPage,
+    MeetEntryPage,
     SwimmerEditPage
   ],
   providers: [
+    EnvService,
     Storage,
     AsaService,
     SwimData,
     TimeUtils,
     SwimmersService,
-    SwimtimesService
+    SwimtimesService,
+    MeetService
   ]
 })
 export class AppModule {}

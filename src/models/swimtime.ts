@@ -1,4 +1,4 @@
-import { TimeUtils }      from '../services/timeutils.service';
+import { TimeUtils }      from '../providers/timeutils.service';
 
 const timeUtils = new TimeUtils();
 

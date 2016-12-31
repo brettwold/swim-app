@@ -1,22 +1,15 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Platform }       from 'ionic-angular';
 import { Observable }     from 'rxjs/Observable';
+
+import { EnvService }     from './env.service';
 import { SwimData }       from './swimdata.service';
+
 import { Swimmer }        from '../models/swimmer';
-import { SwimTime }        from '../models/swimtime';
+import { SwimTime }       from '../models/swimtime';
 
 import * as moment from 'moment';
 
-//const platform = new Platform();
-//if(this.platform.is('core')) {
-//  const ENV = require('../config/environment.dev');
-//} else {
-  //import { ENV }            from '../config/environment.prod';
-  import { ENV }            from '../config/environment.dev';
-//}
-
-//import 'moment';
 import 'rxjs/Rx';
 
 declare var jQuery:any;
@@ -35,12 +28,14 @@ export class AsaService {
     'Individual': 'IM',
   };
 
-  constructor (private http: Http, private swimData: SwimData) {
-    console.log( ENV.ASA_URL );
+  private asa_url :string;
+
+  constructor (private http: Http, private env: EnvService, private swimData: SwimData) {
+    this.asa_url = env.getAsaUrl();
   }
 
   getSwimmer (id): Observable<Swimmer> {
-    let url = ENV.ASA_URL + this.INDIVIDUAL_BEST + id;
+    let url = this.asa_url + this.INDIVIDUAL_BEST + id;
     console.log( url );
     return this.http.get(url)
                     .map(res => this.extractData(res))
@@ -50,7 +45,7 @@ export class AsaService {
   getSwimmerTimes (id, race_type): Observable<SwimTime>  {
     let asaStroke = this.getAsaStrokeCode(race_type);
     let asaCourse = this.getAsaCourseCode(race_type);
-    let url = ENV.ASA_URL + this.STROKE_HISTORY + id + this.ATTR_STOKE_TYPE + asaStroke + this.ATTR_COURSE_TYPE + asaCourse;
+    let url = this.asa_url + this.STROKE_HISTORY + id + this.ATTR_STOKE_TYPE + asaStroke + this.ATTR_COURSE_TYPE + asaCourse;
 
     return this.http.get(url)
                     .map(res => this.extractTimes(id, race_type, res))

@@ -5,11 +5,15 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button (click)="getMeets()">Refresh</button>
-  <ion-list>
-    <ion-item *ngFor="let meet of meets" (click)="selectMeet(meet)">
+  <ion-list>    
+    <ion-item *ngFor="let meet of meets">
       <h2>{{ meet.name }}</h2>
       <p>{{ meet.venue }} {{ meet.meet_date }}</p>
     </ion-item>
+    <ion-item (click)="selectMeet(1)">
+      <h2>Meet 1</h2>
+      <p>Basingstoke 23/04/2017</p>
+    </ion-item>
+    <ion-item (click)="selectMeet(2)">Meet 2</ion-item>
   </ion-list>
 </ion-content>

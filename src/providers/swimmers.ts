@@ -7,9 +7,6 @@ import { SwimtimesService } from './swimtimes';
 import { Subject }        from 'rxjs/Subject';
 import 'rxjs/Rx';
 
-const win: any = window;
-const DB_NAME = 'data.db';
-
 @Injectable()
 export class SwimmersService {
   SWIMMERS_STORE :string = 'swimmers';

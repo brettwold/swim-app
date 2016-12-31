@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Meet Entry</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1>{{ meet.name }}</h1>
+
+  <p>{{ meet.meet_date }}</p>
+  <p *ngIf="meet.multi_session">{{ meet.num_sessions }} Sessions</p>
+  <p>{{ meet.meet_type }}, {{ meet.course_type }}, {{ meet.lanes }} Lanes</p>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Select a swimmer</ion-label>
+      <ion-select [(ngModel)]="swimmer_regno" (ionChange)="selectSwimmer()">
+        <ion-option *ngFor="let swimmer of swimmers_list" value="{{ swimmer.regno }}">{{ swimmer.first_name }} {{ swimmer.last_name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="swimmer">{{ swimmer.first_name }} {{ swimmer.last_name}}</ion-item>
+    <ion-item *ngIf="swimmer">Age at meet: {{ meet.ageAtMeet(swimmer) }}</ion-item>
+    <ion-item *ngIf="swimmer">Entry group: {{ meet.getGroupForSwimmer(swimmer).description }}</ion-item>
+  </ion-list>
+
+  <ion-grid *ngIf="entry_events">
+    <ion-row>
+      <ion-col width-10>Qualify</ion-col>
+      <ion-col width-10>Enter</ion-col>
+      <ion-col>Race</ion-col>
+      <ion-col width-10>Min</ion-col>
+      <ion-col width-10>Auto</ion-col>
+      <ion-col width-10>Max</ion-col>
+      <ion-col width-25>Best Time</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let race of entry_events">
+      <ion-col yes-no="race.qualify" width-10></ion-col>
+      <ion-col width-10>
+        <ion-checkbox
+          *ngIf="race.qualify"
+          checked="exists(race.id, raceEntries)"
+          (click)="toggle(race.id, raceEntries)"
+          class="md-warn md-align-top-left"></ion-checkbox>
+          <span *ngIf="race.qualify_auto">(Auto)</span>
+      </ion-col>
+      <ion-col>{{ race.name }}</ion-col>
+      <ion-col width-10><display-time [time]="race.min">{{ race.min }}</display-time></ion-col>
+      <ion-col width-10><display-time [time]="race.auto">{{ race.auto }}</display-time></ion-col>
+      <ion-col width-10><display-time [time]="race.max">{{ race.max }}</display-time></ion-col>
+      <ion-col width-25>
+        <span *ngIf="race.best">
+          <display-time [time]="race.best.time">{{ race.best.time }}</display-time>
+          <i>{{ race.best.date }} {{ race.best.meet_name }}</i>
+        </span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,6 +1,6 @@
 import { Injectable }     from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { SwimData }       from '../services/swimdata.service';
+import { SwimData }       from '../providers/swimdata.service';
 
 const swimdata = new SwimData();
 

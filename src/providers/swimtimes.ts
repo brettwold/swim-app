@@ -1,7 +1,6 @@
 import { Injectable }     from '@angular/core';
 import { Platform }       from 'ionic-angular';
 import { Schema }       from './schema';
-import * as lf    from 'lovefield';
 
 @Injectable()
 export class SwimtimesService {
