@@ -49,7 +49,7 @@ describe('Meets Service', () => {
     expect(age).toEqual(0);
   });
 
-  it('should return age at meet AME', () => {
+  it('should return correct age at meet AMD', () => {
     testEnv.setupMeetForAgeAtMeetDate('2017-06-01');
     testEnv.setupSwimmerDateOfBirth('2006-01-05');
 
@@ -57,16 +57,32 @@ describe('Meets Service', () => {
     expect(age).toEqual(11);
   });
 
-  it('should return age at dec AOD', () => {
-    testEnv.setupMeetForAgeAtMeetDate('2016-12-01');
+  it('should return correct age at dec AOD #1', () => {
+    testEnv.setupMeetForAgeAtDecember('2016-12-01');
     testEnv.setupSwimmerDateOfBirth('2006-01-05');
 
     let age :number = meetService.ageAtMeet(testEnv.getSwimmer(), testEnv.getMeet());
     expect(age).toEqual(10);
   });
 
-  it('should return age on entry AOE', () => {
-    testEnv.setupMeetForAgeAtMeetDate('2017-12-01');
+  it('should return correct age at dec AOD #2', () => {
+    testEnv.setupMeetForAgeAtDecember('2016-12-01');
+    testEnv.setupSwimmerDateOfBirth('2006-12-31');
+
+    let age :number = meetService.ageAtMeet(testEnv.getSwimmer(), testEnv.getMeet());
+    expect(age).toEqual(10);
+  });
+
+  it('should return correct age at dec AOD #3', () => {
+    testEnv.setupMeetForAgeAtDecember('2016-12-01');
+    testEnv.setupSwimmerDateOfBirth('2007-01-01');
+
+    let age :number = meetService.ageAtMeet(testEnv.getSwimmer(), testEnv.getMeet());
+    expect(age).toEqual(9);
+  });
+
+  it('should return correct age on entry AOE', () => {
+    testEnv.setupMeetForAgeAtEntry('2017-12-01');
     testEnv.setupSwimmerDateOfBirth('2006-01-05');
 
     let age :number = meetService.ageAtMeet(testEnv.getSwimmer(), testEnv.getMeet());
