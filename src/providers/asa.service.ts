@@ -3,7 +3,8 @@ import { Http, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 
 import { EnvService }     from './env.service';
-import { SwimData }       from './swimdata.service';
+import { HttpProvider }   from './http.provider';
+import { SwimData }       from './swimdata';
 
 import { Swimmer }        from '../models/swimmer';
 import { SwimTime }       from '../models/swimtime';
@@ -15,7 +16,7 @@ import 'rxjs/Rx';
 declare var jQuery:any;
 
 @Injectable()
-export class AsaService {
+export class AsaService extends HttpProvider {
   private INDIVIDUAL_BEST = 'individualbest/personal_best.php?mode=A&tiref=';
   private STROKE_HISTORY = 'individualbest/personal_best_time_date.php?mode=A&tiref='
   private ATTR_STOKE_TYPE = '&tstroke='
@@ -31,6 +32,7 @@ export class AsaService {
   private asa_url :string;
 
   constructor (private http: Http, private env: EnvService, private swimData: SwimData) {
+    super();
     this.asa_url = env.getAsaUrl();
   }
 
@@ -188,19 +190,5 @@ export class AsaService {
     this.processAllTimeTables(dom, times, regno, race_type);
 
     return times;
-  }
-
-  private handleError (error: Response | any) {
-    // In a real world app, we might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
   }
 }

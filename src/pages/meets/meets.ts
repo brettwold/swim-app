@@ -6,7 +6,7 @@ import { MeetDetailPage }  from '../../pages/meets/meetdetail';
 import { Meet }             from '../../models/meet';
 
 import { MeetService }      from '../../providers/meet.service';
-import { SwimData }         from '../../providers/swimdata.service';
+import { SwimData }         from '../../providers/swimdata';
 
 @Component({
   selector: 'page-home',

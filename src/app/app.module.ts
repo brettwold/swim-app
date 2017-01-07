@@ -11,7 +11,7 @@ import { SwimtimesService } from '../providers/swimtimes';
 import { MeetService } from '../providers/meet.service';
 import { AsaService } from '../providers/asa.service';
 import { TimeUtils } from '../providers/timeutils.service';
-import { SwimData } from '../providers/swimdata.service';
+import { SwimData } from '../providers/swimdata';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';

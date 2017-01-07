@@ -1,24 +1,22 @@
-import { Injectable }     from '@angular/core';
-
-@Injectable()
-export class SwimData {
-    meet_types = ["Level 1", "Level 2", "Level 3", "Level 4"];
-    levels = { 1 : "Level 1", 2: "Level 2", 3: "Level 3", 4: "Level 4"};
-    lanes = ["6", "8", "10"];
-    genders = {
-      "M" :{ code: "M", name: "Male"},
-      "F" :{ code: "F", name: "Female"}
-    };
-    gender_aliases = {
+export class DefaultSwimData {
+  public static DATA = {
+    meet_types: ["Level 1", "Level 2", "Level 3", "Level 4"],
+    levels: { 1 : "Level 1", 2: "Level 2", 3: "Level 3", 4: "Level 4"},
+    lanes: ["6", "8", "10"],
+    genders: {
+      "M": "Male",
+      "F": "Female"
+    },
+    gender_aliases: {
       "M": ["male", "boys", "men", "m", "b"],
       "F": ["female", "girls", "women", "f", "g"]
-    };
-    meet_age_types = [
-      {name: "Age on entry", code: "AOE"},
-      {name: "Age on meet date", code: "AMD"},
-      {name: "Age on 31st December", code: "AOD"}
-    ];
-    entry_groups = {
+    },
+    meet_age_types: [
+    {name: "Age on entry", code: "AOE"},
+    {name: "Age on meet date", code: "AMD"},
+    {name: "Age on 31st December", code: "AOD"}
+    ],
+    entry_groups: {
       1: { id: 1, name: "9 and under", min: 0, max: 10, description: "9 years and under" },
       2: { id: 2, name: "10", min: 10, max: 11, description: "10 year olds" },
       3: { id: 3, name: "11", min: 11, max: 12, description: "11 year olds" },
@@ -32,8 +30,8 @@ export class SwimData {
       11: { id: 11, name: "11/12", min: 11, max: 13, description: "11 - 12 year olds" },
       12: { id: 12, name: "13/14", min: 13, max: 15, description: "13 - 14 year olds" },
       13: { id: 13, name: "15/16", min: 15, max: 17, description: "15 - 16 year olds" }
-    };
-    group_aliases = {
+    },
+    group_aliases: {
       1: ["age 9", "9 and under", "under 9s"],
       2: ["age 10", "10 and under", "under 10s"],
       3: ["age 11", "11 and under", "under 11s", "10/11"],
@@ -47,8 +45,8 @@ export class SwimData {
       11: ["11/12", "11 to 12", "11/12", "age 11/12"],
       12: ["13/14", "13 to 14"],
       13: ["15/16", "15 to 16"]
-    };
-    strokes = {
+    },
+    strokes: {
       "FS": "Freestyle",
       "BK": "Backstroke",
       "BR": "Breaststroke",
@@ -56,8 +54,8 @@ export class SwimData {
       "IM": "Individual medley",
       "MR": "Medley relay",
       "FR": "Freestyle relay",
-    };
-    races = {
+    },
+    races: {
       101: { id: 101, name: "25m Freestyle", stroke: "FS", course_type: "SC", distance: 25, lengths: 1, team: false, asa_course: "S", asa_stroke: 99 },
       102: { id: 102, name: "50m Freestyle", stroke: "FS", course_type: "SC", distance: 50, lengths: 2, team: false, asa_course: "S", asa_stroke: 1 },
       103: { id: 103, name: "100m Freestyle", stroke: "FS", course_type: "SC", distance: 100, lengths: 4, team: false, asa_course: "S", asa_stroke: 2 },
@@ -109,13 +107,14 @@ export class SwimData {
       221: { id: 221, name: "4x50m Freestyle relay", stroke: "FR", course_type: "LC", distance: 200, lengths: 4, team: true },
       222: { id: 222, name: "4x100m Freestyle relay", stroke: "FR", course_type: "LC", distance: 400, lengths: 8, team: true },
       223: { id: 223, name: "4x200m Medley relay", stroke: "FR", course_type: "LC", distance: 800, lengths: 16, team: true },
-    };
-    event_types = [
+    },
+    event_types: [
     {name: "Heat declared winner", code: "HDW"},
     {name: "Final decides winner", code: "FDW"}
-  ];
-    course_types = [
+    ],
+    course_types: [
     {name: "Short course (25m)", code: "SC" },
     {name: "Long course (50m)", code: "LC" }
-  ];
+    ]
+  }
 }

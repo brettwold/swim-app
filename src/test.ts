@@ -11,7 +11,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 import { App, MenuController, NavController, Platform, Config, Keyboard, Form, IonicModule }  from 'ionic-angular';
 import { ConfigMock } from './mocks';
-import { AsaService } from './services/asa.service';
+import { AsaService } from './providers/asa.service';
+import { MeetService } from './providers/meet.service';
+import { SwimData } from './providers/swimdata';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
 declare var __karma__: any;
@@ -60,6 +62,8 @@ export class TestUtils {
         App, Platform, Form, Keyboard, MenuController, NavController,
         {provide: Config, useClass: ConfigMock},
         {provide: AsaService, useClass: AsaService},
+        {provide: MeetService, useClass: MeetService},
+        {provide: SwimData, useClass: SwimData}
       ],
       imports: [
         FormsModule,

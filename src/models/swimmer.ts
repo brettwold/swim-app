@@ -4,7 +4,7 @@ export class Swimmer {
   last_name :string;
   times :Array<any>;
   club :string;
-  dob :string;
+  dob :string; // YYYY-MM-dd
   gender :string;
 
   constructor(swimmerData :any) {

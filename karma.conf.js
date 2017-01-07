@@ -8,7 +8,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-remap-istanbul'),
       require('karma-mocha-reporter'),
-      require('angular-cli/plugins/karma')
+      require('angular-cli/plugins/karma'),
     ],
     files: [
       { pattern: './src/test.ts', watched: false }
@@ -35,6 +35,12 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    mime: { 'text/x-typescript': ['ts', 'tsx'] } // https://github.com/lathonez/clicker/issues/178
+    mime: { 'text/x-typescript': ['ts', 'tsx'] }, // https://github.com/lathonez/clicker/issues/178
+    client: {
+      captureConsole: true,
+      mocha: {
+        bail: true
+      }
+    }
   });
 };

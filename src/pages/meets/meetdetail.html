@@ -20,8 +20,8 @@
     </ion-item>
 
     <ion-item *ngIf="swimmer">{{ swimmer.first_name }} {{ swimmer.last_name}}</ion-item>
-    <ion-item *ngIf="swimmer">Age at meet: {{ meet.ageAtMeet(swimmer) }}</ion-item>
-    <ion-item *ngIf="swimmer">Entry group: {{ meet.getGroupForSwimmer(swimmer).description }}</ion-item>
+    <ion-item *ngIf="swimmer">Age at meet: {{ ageAtMeet() }}</ion-item>
+    <ion-item *ngIf="swimmer">Entry group: {{ getGroupForSwimmer() }}</ion-item>
   </ion-list>
 
   <ion-grid *ngIf="entry_events">

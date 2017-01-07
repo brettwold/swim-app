@@ -20,7 +20,10 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts",
+    "src/mocks.ts",
+    "src/test.ts"
   ],
   "compileOnSave": false,
   "atom": {

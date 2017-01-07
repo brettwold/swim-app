@@ -6,7 +6,7 @@ import { HistoryPage }        from '../../pages/times/history';
 import { Swimmer }            from '../../models/swimmer';
 
 import { AsaService }         from '../../providers/asa.service';
-import { SwimData }           from '../../providers/swimdata.service';
+import { SwimData }           from '../../providers/swimdata';
 import { SwimtimesService }   from "../../providers/swimtimes";
 
 @Component({

@@ -6,7 +6,7 @@ import { SwimmerEditPage }    from '../../pages/swimmer/swimmer';
 
 import { Swimmer }            from '../../models/swimmer';
 
-import { SwimData }           from '../../providers/swimdata.service';
+import { SwimData }           from '../../providers/swimdata';
 import { AsaService }         from '../../providers/asa.service';
 import { SwimmersService }    from "../../providers/swimmers";
 
