@@ -1,4 +1,8 @@
 export class Meet {
+  public static AGE_AT_DEC :string = 'AOD';
+  public static AGE_ON_ENTRY :string = 'AOE';
+  public static AGE_AT_MEET_DATE :string = 'AME';
+
   id: string;
   name: string;
   title: string;

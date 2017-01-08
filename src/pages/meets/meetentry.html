@@ -5,15 +5,27 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>    
-    <ion-item *ngFor="let meet of meets">
-      <h2>{{ meet.name }}</h2>
-      <p>{{ meet.venue }} {{ meet.meet_date }}</p>
+  <h1>{{ meet.name }}</h1>
+  <h2>Entry Details</h2>
+  <ion-list *ngIf="entries">
+    <ion-list-header>Confirm entry events</ion-list-header>
+    <ion-item *ngFor="let race of entries">
+      <h2>{{ race.name }}</h2>
+      <h3 *ngIf="race.best">
+        Entry time:
+        <strong><display-time [time]="race.best.time">{{ race.best.time }}</display-time></strong>
+      </h3>
+      <ion-note item-right>{{ meet.cost_per_race | currency:'GBP':true }}</ion-note>
     </ion-item>
-    <ion-item (click)="selectMeet(1)">
-      <h2>Meet 1</h2>
-      <p>Basingstoke 23/04/2017</p>
+    <ion-item>
+      <h2>Admin fee</h2>
+      <ion-note item-right>{{ meet.admin_fee | currency:'GBP':true }}</ion-note>
     </ion-item>
-    <ion-item (click)="selectMeet(2)">Meet 2</ion-item>
+    <ion-item>
+      <h2>TOTAL</h2>
+      <ion-note item-right>{{ totalCost | currency:'GBP':true }}</ion-note>
+    </ion-item>
   </ion-list>
+
+  <button *ngIf="entries" ion-button (click)="confirmEntries()">Confirm and Pay</button>
 </ion-content>

@@ -1,6 +1,8 @@
 import { Injectable }     from '@angular/core';
 import { Platform }       from 'ionic-angular';
-import { Schema }       from './schema';
+import { Schema }         from './schema';
+
+import { Swimmer }        from '../models/swimmer';
 
 @Injectable()
 export class SwimtimesService {
@@ -18,12 +20,15 @@ export class SwimtimesService {
     return this.schema.db.insertOrReplace().into(this.schema.swimtimes).values([row]).exec();
   }
 
-  getBestTimes(qualDate: Date) {
+  getBestTimes(swimmer :Swimmer, qualDate :string) {
     return new Promise((resolve, reject) => {
-      this.schema.db.select().from(this.schema.swimtimes).exec().then((rows) => {
-          resolve(rows);
-        }
-      );
+      // TODO - replace with real lookup using qual date here
+      // this.schema.db.select().from(this.schema.swimtimes).exec().then((rows) => {
+      //     resolve(rows);
+      //   }
+      // );
+
+      resolve(swimmer.times);
     });
   }
 

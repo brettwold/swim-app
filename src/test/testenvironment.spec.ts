@@ -3,8 +3,8 @@ import { Http, Response }     from '@angular/http';
 import { mock, when, instance, verify, anyString, anything }           from 'ts-mockito';
 import { Observable }         from 'rxjs/Observable';
 
-import { EnvService }         from './env.service';
-import { SwimData }           from './swimdata';
+import { EnvService }         from '../providers/env.service';
+import { SwimData }           from '../providers/swimdata';
 
 import { Meet }               from '../models/meet';
 import { Swimmer }            from '../models/swimmer';
@@ -68,19 +68,18 @@ export class TestEnvironment {
     return this.meet;
   }
 
-  setupMeetForAgeAtDecember(meetDate: string) {
-    this.meet.age_type = 'AOD';
+  setupMeetAndSwimmer(meetDate :string, meetType :string, swimmerDob :string) {
+    this.setupMeetForAgeType(meetDate, meetType);
+    this.setupSwimmerDateOfBirth(swimmerDob);
+  }
+
+  setupMeetForAgeType(meetDate: string, ageType: string) {
+    this.meet.age_type = ageType;
     this.meet.meet_date = meetDate;
   }
 
-  setupMeetForAgeAtEntry(meetDate: string) {
-    this.meet.age_type = 'AOE';
-    this.meet.meet_date = meetDate;
-  }
-
-  setupMeetForAgeAtMeetDate(meetDate: string) {
-    this.meet.age_type = 'AMD';
-    this.meet.meet_date = meetDate;
+  setupMeetGroups(groups :Array<number>) {
+    this.meet.entry_groups_arr = groups;
   }
 
   setupSwimmerDateOfBirth(dob: string) {

@@ -1,16 +1,17 @@
-import { Injectable }     from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable }     from 'rxjs/Observable';
+import { Injectable }       from '@angular/core';
+import { Http, Response }   from '@angular/http';
+import { Observable }       from 'rxjs/Observable';
 
-import { EnvService }     from './env.service';
-import { SwimData }       from './swimdata';
-import { HttpProvider }   from './http.provider';
-import { TimeUtils }      from './timeutils.service';
+import { EnvService }       from './env.service';
+import { SwimData }         from './swimdata';
+import { SwimtimesService } from './swimtimes';
+import { HttpProvider }     from './http.provider';
+import { TimeUtils }        from './timeutils.service';
 
-import { Meet }           from '../models/meet';
-import { Swimmer }        from '../models/swimmer';
+import { Meet }             from '../models/meet';
+import { Swimmer }          from '../models/swimmer';
 
-import * as moment        from 'moment';
+import * as moment          from 'moment';
 
 
 @Injectable()
@@ -18,7 +19,8 @@ export class MeetService extends HttpProvider {
 
   private meets_url;
 
-  constructor (private http: Http, private env: EnvService, private swimData: SwimData, private timeUtils: TimeUtils) {
+  constructor (private http: Http, private env: EnvService, private swimData :SwimData,
+      private timeUtils :TimeUtils, private swimtimesService :SwimtimesService) {
     super();
     this.meets_url = env.getDataUrl() + 'meets';
   }
@@ -64,10 +66,10 @@ export class MeetService extends HttpProvider {
   }
 
   public getGroupForSwimmer(swimmer :Swimmer, meet :Meet) :any {
-    var aam = this.ageAtMeet(swimmer, meet);
+    let aam = this.ageAtMeet(swimmer, meet);
     if (aam && meet.entry_groups_arr) {
       for(let i = 0; i < meet.entry_groups_arr.length; i++) {
-        var entryGroup = this.swimData.entry_groups[meet.entry_groups_arr[i]];
+        let entryGroup = this.swimData.entry_groups[meet.entry_groups_arr[i]];
         if(aam >= entryGroup.min && aam < entryGroup.max) {
           return entryGroup;
         }
@@ -110,12 +112,12 @@ export class MeetService extends HttpProvider {
 
   private processMinAndMax(swimmer :Swimmer, meet :Meet, deferred) {
     if(swimmer) {
-      swimmer.getBestTimes(meet.qual_date).then(function(bestTimes) {
-        var mins = JSON.parse(this.minimum_timesheet.timesheet_data);
-        var maxs = JSON.parse(this.maximum_timesheet.timesheet_data);
+      this.swimtimesService.getBestTimes(swimmer, meet.qual_date).then((bestTimes) => {
+        var mins = JSON.parse(meet.minimum_timesheet.timesheet_data);
+        var maxs = JSON.parse(meet.maximum_timesheet.timesheet_data);
         var swimmerGroup = this.getGroupForSwimmer(swimmer, meet).id;
         var events = [];
-        var types = this.entry_events[swimmer.gender][swimmerGroup];
+        var types = meet.entry_events[swimmer.gender][swimmerGroup];
         for(let type in types) {
           if(types[type]) {
             var race = this.swimData.races[type];
@@ -145,7 +147,7 @@ export class MeetService extends HttpProvider {
 
   private processMinimumOnly(swimmer :Swimmer, meet :Meet, deferred) {
     if(swimmer) {
-      swimmer.getBestTimes(meet.qual_date).then(function(bestTimes) {
+      this.swimtimesService.getBestTimes(swimmer, meet.qual_date).then((bestTimes) => {
         var events = [];
         var mins = JSON.parse(meet.minimum_timesheet.timesheet_data);
         var hasAutos = false;
@@ -199,7 +201,7 @@ export class MeetService extends HttpProvider {
 
   }
 
-  private getBestTimeForRaceType(bestTimes, raceType) {
+  public getBestTimeForRaceType(bestTimes, raceType) {
     for(let i = 0; i < bestTimes.length; i++) {
       if(bestTimes[i].race_type == raceType) {
         return bestTimes[i];
@@ -207,7 +209,7 @@ export class MeetService extends HttpProvider {
     }
   }
 
-  private getTotalCostForEntries(raceEntries, meet:Meet) {
+  public getTotalCostForEntries(raceEntries :Array<any>, meet:Meet) {
     var total = 0;
     if(raceEntries) {
       total += raceEntries.length * meet.cost_per_race;

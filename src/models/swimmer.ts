@@ -10,12 +10,4 @@ export class Swimmer {
   constructor(swimmerData :any) {
     Object.assign(this, swimmerData);
   }
-
-  public getBestTimes(qual_date) {
-    return new Promise((resolve, reject) => {
-      // TODO - replace with real lookup using qual date here
-      resolve(this.times);
-    });
-  }
-
 }

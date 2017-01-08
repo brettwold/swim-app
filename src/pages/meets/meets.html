@@ -9,7 +9,7 @@
   <ion-list>
     <ion-item *ngFor="let meet of meets" (click)="selectMeet(meet)">
       <h2>{{ meet.name }}</h2>
-      <p>{{ meet.venue }} {{ meet.meet_date }}</p>
+      <p>{{ meet.venue }} {{ meet.meet_date | date:'dd-MMM-yyyy' }}</p>
     </ion-item>
   </ion-list>
 </ion-content>

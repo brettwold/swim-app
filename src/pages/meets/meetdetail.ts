@@ -17,11 +17,11 @@ import { SwimData }         from '../../providers/swimdata';
 export class MeetDetailPage {
   errorMessage: string;
   swimmers: any;
-  swimmers_list: Array<Swimmer>;
+  swimmersList: Array<Swimmer>;
   meet: Meet;
-  swimmer_regno: string;
+  swimmerRegno: string;
   swimmer: Swimmer;
-  entry_events: any;
+  entryEvents: any;
   mode = 'Observable';
 
   constructor(public navCtrl: NavController,
@@ -37,13 +37,15 @@ export class MeetDetailPage {
   public refreshSwimmers() {
     this.swimmersService.load().then((swimmers) => {
       this.swimmers = swimmers;
-      this.swimmers_list = [];
+      this.swimmersList = [];
+
       for(let regno in swimmers) {
-        this.swimmers_list.push(swimmers[regno]);
+        this.swimmersList.push(swimmers[regno]);
       }
-      if(this.swimmers.length == 1) {
-        this.swimmer = this.swimmers[0];
-        this.swimmer_regno = this.swimmer.regno;
+
+      if(this.swimmersList.length == 1) {
+        this.swimmerRegno = this.swimmersList[0].regno;
+        this.selectSwimmer();
       }
     });
   }
@@ -52,24 +54,30 @@ export class MeetDetailPage {
     return this.meetService.ageAtMeet(this.swimmer, this.meet);
   }
 
-  public getGroupForSwimmer() {
-    //let group = this.meetService.getGroupForSwimmer(this.swimmer, this.meet);
-    //return group.description;
+  public getGroupForSwimmer() :string {
+    return this.meetService.getGroupForSwimmer(this.swimmer, this.meet).description;
   }
 
   public selectSwimmer() {
-    this.swimmer = new Swimmer(this.swimmers[this.swimmer_regno]);
-    console.log(this.swimmer);
+    this.swimmer = new Swimmer(this.swimmers[this.swimmerRegno]);
 
-    this.meetService.getEntryEvents(this.swimmer, this.meet).then((entry_events) => {
-      console.log(entry_events);
-      this.entry_events = entry_events;
+    this.meetService.getEntryEvents(this.swimmer, this.meet).then((entryEvents) => {
+      this.entryEvents = entryEvents;
     });
   }
 
-  public enterMeet(meet :Meet) {
+  public confirmEntries() {
+    let entries :Array<any> = new Array();
+    for(let evt in this.entryEvents) {
+      if(this.entryEvents[evt].entered) {
+        entries.push(this.entryEvents[evt]);
+      }
+    }
+
     this.navCtrl.push(MeetEntryPage, {
-      meet: meet
+      meet: this.meet,
+      swimmer: this.swimmer,
+      entries: entries
     });
   }
 }

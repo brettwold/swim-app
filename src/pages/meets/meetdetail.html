@@ -7,12 +7,13 @@
 <ion-content padding>
   <h1>{{ meet.name }}</h1>
 
-  <p>{{ meet.meet_date }}</p>
+  <p>{{ meet.meet_date | date:'dd-MMM-yyyy' }} - {{ meet.end_date | date:'dd-MMM-yyyy' }}</p>
+  <p *ngIf="meet.qual_date">Qualification from: {{ meet.qual_date | date:'dd-MMM-yyyy'}}</p>
   <p *ngIf="meet.multi_session">{{ meet.num_sessions }} Sessions</p>
   <p>{{ meet.meet_type }}, {{ meet.course_type }}, {{ meet.lanes }} Lanes</p>
 
   <ion-list>
-    <ion-item>
+    <ion-item *ngIf="swimmersList && swimmersList.length > 1">
       <ion-label>Select a swimmer</ion-label>
       <ion-select [(ngModel)]="swimmer_regno" (ionChange)="selectSwimmer()">
         <ion-option *ngFor="let swimmer of swimmers_list" value="{{ swimmer.regno }}">{{ swimmer.first_name }} {{ swimmer.last_name}}</ion-option>
@@ -24,37 +25,28 @@
     <ion-item *ngIf="swimmer">Entry group: {{ getGroupForSwimmer() }}</ion-item>
   </ion-list>
 
-  <ion-grid *ngIf="entry_events">
-    <ion-row>
-      <ion-col width-10>Qualify</ion-col>
-      <ion-col width-10>Enter</ion-col>
-      <ion-col>Race</ion-col>
-      <ion-col width-10>Min</ion-col>
-      <ion-col width-10>Auto</ion-col>
-      <ion-col width-10>Max</ion-col>
-      <ion-col width-25>Best Time</ion-col>
-    </ion-row>
-    <ion-row *ngFor="let race of entry_events">
-      <ion-col yes-no="race.qualify" width-10></ion-col>
-      <ion-col width-10>
-        <ion-checkbox
-          *ngIf="race.qualify"
-          checked="exists(race.id, raceEntries)"
-          (click)="toggle(race.id, raceEntries)"
-          class="md-warn md-align-top-left"></ion-checkbox>
-          <span *ngIf="race.qualify_auto">(Auto)</span>
-      </ion-col>
-      <ion-col>{{ race.name }}</ion-col>
-      <ion-col width-10><display-time [time]="race.min">{{ race.min }}</display-time></ion-col>
-      <ion-col width-10><display-time [time]="race.auto">{{ race.auto }}</display-time></ion-col>
-      <ion-col width-10><display-time [time]="race.max">{{ race.max }}</display-time></ion-col>
-      <ion-col width-25>
-        <span *ngIf="race.best">
-          <display-time [time]="race.best.time">{{ race.best.time }}</display-time>
-          <i>{{ race.best.date }} {{ race.best.meet_name }}</i>
-        </span>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list *ngIf="entryEvents">
+    <ion-list-header>Qualifying events</ion-list-header>
+    <ion-item *ngFor="let race of entryEvents">
+      <ion-toggle [(ngModel)]="race.entered" checked="true"></ion-toggle>
+      <ion-label>
+        <h2>{{ race.name }}</h2>
+        <h4>
+          <span *ngIf="race.min">Min: <display-time [time]="race.min">{{ race.min }}</display-time></span>
+          <span *ngIf="race.auto">Auto: <display-time [time]="race.auto">{{ race.auto }}</display-time></span>
+          <span *ngIf="race.max">Max: <display-time [time]="race.max">{{ race.max }}</display-time></span>
+        </h4>
+        <h3 *ngIf="race.best">
+          <span *ngIf="race.qualify_auto">Auto</span><span *ngIf="!race.qualify_auto">Base</span>:
+          <strong><display-time [time]="race.best.time">{{ race.best.time }}</display-time></strong> <em>{{ race.best.date | date:'dd-MMM-yyyy' }}</em>
+        </h3>
+        <h3 *ngIf="!race.best">
+          No qualifying time
+        </h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button (click)="confirmEntries()">Confirm Entries</button>
 
 </ion-content>

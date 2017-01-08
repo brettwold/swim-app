@@ -5,9 +5,9 @@ import { Observable }         from 'rxjs/Observable';
 
 import { TestEnvironment }    from './testenvironment.spec';
 
-import { EnvService }         from './env.service';
-import { AsaService }         from './asa.service';
-import { SwimData }           from './swimdata';
+import { EnvService }         from '../providers/env.service';
+import { AsaService }         from '../providers/asa.service';
+import { SwimData }           from '../providers/swimdata';
 
 let testEnv = new TestEnvironment();
 

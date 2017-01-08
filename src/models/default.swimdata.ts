@@ -12,9 +12,9 @@ export class DefaultSwimData {
       "F": ["female", "girls", "women", "f", "g"]
     },
     meet_age_types: [
-    {name: "Age on entry", code: "AOE"},
-    {name: "Age on meet date", code: "AMD"},
-    {name: "Age on 31st December", code: "AOD"}
+      {name: "Age on entry", code: "AOE"},
+      {name: "Age on meet date", code: "AMD"},
+      {name: "Age on 31st December", code: "AOD"}
     ],
     entry_groups: {
       1: { id: 1, name: "9 and under", min: 0, max: 10, description: "9 years and under" },
@@ -109,12 +109,12 @@ export class DefaultSwimData {
       223: { id: 223, name: "4x200m Medley relay", stroke: "FR", course_type: "LC", distance: 800, lengths: 16, team: true },
     },
     event_types: [
-    {name: "Heat declared winner", code: "HDW"},
-    {name: "Final decides winner", code: "FDW"}
+      {name: "Heat declared winner", code: "HDW"},
+      {name: "Final decides winner", code: "FDW"}
     ],
     course_types: [
-    {name: "Short course (25m)", code: "SC" },
-    {name: "Long course (50m)", code: "LC" }
+      {name: "Short course (25m)", code: "SC" },
+      {name: "Long course (50m)", code: "LC" }
     ]
   }
 }
