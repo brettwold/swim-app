@@ -28,6 +28,9 @@ export class SwimtimesService {
       //   }
       // );
 
+      console.log("RETURNING SWIMMER");
+      console.log(swimmer.times);
+
       resolve(swimmer.times);
     });
   }

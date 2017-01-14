@@ -16,6 +16,7 @@ export class SwimmerEditPage {
   swimmer: Swimmer;
   mode = 'Observable';
   config: any = {};
+  genders: Array<any> = new Array();
 
   constructor(public navCtrl: NavController,
       public params: NavParams,
@@ -25,6 +26,10 @@ export class SwimmerEditPage {
       private swimmersService: SwimmersService) {
             this.swimmer = this.params.get('swimmer');
             this.config = swimData;
+
+            for(let gender in this.config.genders) {
+              this.genders.push({code: gender, name: this.config.genders[gender] });
+            }
   }
 
   public save(swimmer: Swimmer) {

@@ -22,7 +22,9 @@ import { HistoryPage } from '../pages/times/history';
 import { MeetsPage } from '../pages/meets/meets';
 import { MeetEntryPage } from '../pages/meets/meetentry';
 import { MeetDetailPage } from '../pages/meets/meetdetail';
+import { MeetPayPage } from '../pages/meets/meetpay';
 import { SwimmerEditPage } from '../pages/swimmer/swimmer';
+import { EntriesPage } from '../pages/entries/entries';
 
 import { DisplayTimeComponent }    from '../models/displaytime';
 import { CourseTypePipe } from '../models/coursetype.pipe'
@@ -40,6 +42,8 @@ import { ValuesPipe } from '../models/values.pipe'
     MeetsPage,
     MeetDetailPage,
     MeetEntryPage,
+    MeetPayPage,
+    EntriesPage,
     SwimmerEditPage,
     DisplayTimeComponent,
     CourseTypePipe,
@@ -62,6 +66,8 @@ import { ValuesPipe } from '../models/values.pipe'
     MeetsPage,
     MeetDetailPage,
     MeetEntryPage,
+    MeetPayPage,
+    EntriesPage,
     SwimmerEditPage
   ],
   providers: [

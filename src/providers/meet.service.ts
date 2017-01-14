@@ -148,15 +148,16 @@ export class MeetService extends HttpProvider {
   private processMinimumOnly(swimmer :Swimmer, meet :Meet, deferred) {
     if(swimmer) {
       this.swimtimesService.getBestTimes(swimmer, meet.qual_date).then((bestTimes) => {
-        var events = [];
-        var mins = JSON.parse(meet.minimum_timesheet.timesheet_data);
-        var hasAutos = false;
+        let events :Array<any> = new Array();
+        let mins = JSON.parse(meet.minimum_timesheet.timesheet_data);
+        let hasAutos = false;
+        let autos;
         if(meet.auto_timesheet) {
-          var autos = JSON.parse(meet.auto_timesheet.timesheet_data);
+          autos = JSON.parse(meet.auto_timesheet.timesheet_data);
           hasAutos = true;
         }
-        var swimmerGroup = this.getGroupForSwimmer(swimmer, meet).id;
-        var types = meet.entry_events[swimmer.gender][swimmerGroup];
+        let swimmerGroup = this.getGroupForSwimmer(swimmer, meet).id;
+        let types = meet.entry_events[swimmer.gender][swimmerGroup];
 
         for(let type in types) {
           if(types[type]) {
@@ -198,7 +199,30 @@ export class MeetService extends HttpProvider {
   }
 
   private processEvents(swimmer :Swimmer, meet :Meet, deferred) {
+    if(swimmer && meet) {
+      this.swimtimesService.getBestTimes(swimmer, meet.qual_date).then((bestTimes) => {
+        let events :Array<any> = new Array();
+        let swimmerGroup = this.getGroupForSwimmer(swimmer, meet).id;
+        let types = meet.entry_events[swimmer.gender][swimmerGroup];
 
+        for(let type in types) {
+          if(types[type]) {
+            var race = this.swimData.races[type];
+            var best = this.getBestTimeForRaceType(bestTimes, race.id);
+            if(best) {
+              race.time_present = true;
+            } else {
+              race.time_present = false;
+            }
+            race.best = best;
+            race.qualify_auto = true;
+            race.qualify = true;
+            events.push(race);
+          }
+        }
+        deferred(events);
+      });
+    }
   }
 
   public getBestTimeForRaceType(bestTimes, raceType) {
@@ -209,22 +233,14 @@ export class MeetService extends HttpProvider {
     }
   }
 
-  public getTotalCostForEntries(raceEntries :Array<any>, meet:Meet) {
-    var total = 0;
-    if(raceEntries) {
-      total += raceEntries.length * meet.cost_per_race;
-      total += meet.admin_fee;
-    }
-    return total;
-  }
-
-  public getEntryEvents(swimmer :Swimmer, meet :Meet) {
+  public getEntryEvents(swimmer :Swimmer, meet :Meet) :Promise<Array<any>> {
     return new Promise((resolve, reject) => {
       if (meet.minimum_timesheet && meet.maximum_timesheet) {
         this.processMinAndMax(swimmer, meet, resolve);
       } else if (!meet.minimum_timesheet && meet.maximum_timesheet) {
         this.processMaximumOnly(swimmer, meet, resolve);
       } else if (meet.minimum_timesheet && !meet.maximum_timesheet) {
+        console.log("PROCESSING MIN");
         this.processMinimumOnly(swimmer, meet, resolve);
       } else {
         this.processEvents(swimmer, meet, resolve);

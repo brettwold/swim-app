@@ -22,11 +22,11 @@
     <ion-item>
       <ion-label stacked>Gender</ion-label>
       <ion-select [(ngModel)]="swimmer.gender">
-        <ion-option *ngFor="let gender of config.genders | values:'code'" value="{{gender.code}}">{{gender.name}}</ion-option>
+        <ion-option *ngFor="let gender of genders | values:'code'" value="{{gender.code}}">{{gender.name}}</ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
-  
+
   <div padding>
     <button ion-button block (click)="save(swimmer)">Save</button>
   </div>

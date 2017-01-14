@@ -26,6 +26,14 @@ export class MeetTestEnvironment {
     expect(group).toEqual(DefaultSwimData.DATA.entry_groups[groupId]);
   }
 
+  setupMeetWithMinimumTimesheet() {
+
+  }
+
+  setupMeetWithMaximumTimesheet() {
+
+  }
+
   assertAgeAtMeet(expectedAge: number) {
     let age :number = this.meetService.ageAtMeet(this.testEnv.getSwimmer(), this.testEnv.getMeet());
     expect(age).toEqual(expectedAge);

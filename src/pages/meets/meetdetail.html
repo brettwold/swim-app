@@ -4,13 +4,18 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h1>{{ meet.name }}</h1>
-
-  <p>{{ meet.meet_date | date:'dd-MMM-yyyy' }} - {{ meet.end_date | date:'dd-MMM-yyyy' }}</p>
-  <p *ngIf="meet.qual_date">Qualification from: {{ meet.qual_date | date:'dd-MMM-yyyy'}}</p>
-  <p *ngIf="meet.multi_session">{{ meet.num_sessions }} Sessions</p>
-  <p>{{ meet.meet_type }}, {{ meet.course_type }}, {{ meet.lanes }} Lanes</p>
+<ion-content>
+  <ion-card *ngIf="swimmer">
+    <ion-card-header>
+      <h2>{{ meet.name }}</h2>
+      <p>{{ meet.meet_date | date:'dd-MMM-yyyy' }} - {{ meet.end_date | date:'dd-MMM-yyyy' }}</p>
+    </ion-card-header>
+    <ion-card-content>
+      <p *ngIf="meet.qual_date">Qualification from: {{ meet.qual_date | date:'dd-MMM-yyyy'}}</p>
+      <p *ngIf="meet.multi_session">{{ meet.num_sessions }} Sessions</p>
+      <p>{{ meet.meet_type }}, {{ meet.course_type }}, {{ meet.lanes }} Lanes</p>
+    </ion-card-content>
+  </ion-card>
 
   <ion-list>
     <ion-item *ngIf="swimmersList && swimmersList.length > 1">
@@ -19,34 +24,50 @@
         <ion-option *ngFor="let swimmer of swimmers_list" value="{{ swimmer.regno }}">{{ swimmer.first_name }} {{ swimmer.last_name}}</ion-option>
       </ion-select>
     </ion-item>
-
-    <ion-item *ngIf="swimmer">{{ swimmer.first_name }} {{ swimmer.last_name}}</ion-item>
-    <ion-item *ngIf="swimmer">Age at meet: {{ ageAtMeet() }}</ion-item>
-    <ion-item *ngIf="swimmer">Entry group: {{ getGroupForSwimmer() }}</ion-item>
   </ion-list>
 
-  <ion-list *ngIf="entryEvents">
-    <ion-list-header>Qualifying events</ion-list-header>
-    <ion-item *ngFor="let race of entryEvents">
-      <ion-toggle [(ngModel)]="race.entered" checked="true"></ion-toggle>
-      <ion-label>
-        <h2>{{ race.name }}</h2>
-        <h4>
-          <span *ngIf="race.min">Min: <display-time [time]="race.min">{{ race.min }}</display-time></span>
-          <span *ngIf="race.auto">Auto: <display-time [time]="race.auto">{{ race.auto }}</display-time></span>
-          <span *ngIf="race.max">Max: <display-time [time]="race.max">{{ race.max }}</display-time></span>
-        </h4>
-        <h3 *ngIf="race.best">
-          <span *ngIf="race.qualify_auto">Auto</span><span *ngIf="!race.qualify_auto">Base</span>:
-          <strong><display-time [time]="race.best.time">{{ race.best.time }}</display-time></strong> <em>{{ race.best.date | date:'dd-MMM-yyyy' }}</em>
-        </h3>
-        <h3 *ngIf="!race.best">
-          No qualifying time
-        </h3>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-card *ngIf="swimmer">
+    <ion-card-header>
+      {{ swimmer.first_name }} {{ swimmer.last_name}}
+    </ion-card-header>
 
-  <button ion-button (click)="confirmEntries()">Confirm Entries</button>
+    <ion-card-content>
+      <p>Age at meet: {{ ageAtMeet() }}</p>
+      <p>Entry group: {{ getGroupForSwimmer() }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="entryEvents">
+    <ion-card-header>
+      Qualifying events
+    </ion-card-header>
+
+    <ion-list *ngIf="entryEvents">
+      <ion-list-header></ion-list-header>
+      <ion-item *ngFor="let race of entryEvents">
+        <ion-toggle [(ngModel)]="race.entered" checked="true"></ion-toggle>
+        <ion-label>
+          <h2>{{ race.name }}</h2>
+          <h4>
+            <span *ngIf="race.min">Min: <display-time [time]="race.min">{{ race.min }}</display-time></span>
+            <span *ngIf="race.auto">Auto: <display-time [time]="race.auto">{{ race.auto }}</display-time></span>
+            <span *ngIf="race.max">Max: <display-time [time]="race.max">{{ race.max }}</display-time></span>
+          </h4>
+          <h3 *ngIf="race.best">
+            <span *ngIf="race.qualify_auto">Auto</span><span *ngIf="!race.qualify_auto">Base</span>:
+            <strong><display-time [time]="race.best.time">{{ race.best.time }}</display-time></strong> <em>{{ race.best.date | date:'dd-MMM-yyyy' }}</em>
+          </h3>
+          <h3 *ngIf="!race.best">
+            No qualifying time
+          </h3>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <button ion-button block (click)="confirmEntries()">
+          Confirm Entries
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
 
 </ion-content>

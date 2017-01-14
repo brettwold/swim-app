@@ -5,6 +5,7 @@ import { Observable }         from 'rxjs/Observable';
 
 import { EnvService }         from '../providers/env.service';
 import { SwimData }           from '../providers/swimdata';
+import { SwimtimesService }   from '../providers/swimtimes';
 
 import { Meet }               from '../models/meet';
 import { Swimmer }            from '../models/swimmer';
@@ -17,6 +18,7 @@ export class TestEnvironment {
   public mockedStorage:Storage = mock(Storage);
   public mockedResponse:Response = mock(Response);
   public mockedEnv:EnvService = mock(EnvService);
+  public mockedSwimtimesService:SwimtimesService = mock(SwimtimesService);
 
   besttimes :any;
   swimmer :Swimmer = new Swimmer({});
@@ -60,6 +62,10 @@ export class TestEnvironment {
     return instance(this.mockedResponse);
   }
 
+  getSwimtimesService() {
+    return instance(this.mockedSwimtimesService);
+  }
+
   getSwimmer() {
     return this.swimmer;
   }
@@ -84,6 +90,20 @@ export class TestEnvironment {
 
   setupSwimmerDateOfBirth(dob: string) {
     this.swimmer.dob = dob;
+  }
+
+  setupMeet(meetData :any) {
+    this.meet = new Meet(meetData);
+  }
+
+  setupSwimmer(swimmerData :any) {
+    this.swimmer = new Swimmer(swimmerData);
+  }
+
+  setupSwimmerBestTimes(swimmertimes :any) {
+    when(this.mockedSwimtimesService.getBestTimes(anything(), anything())).thenReturn(new Promise((resolve, reject) => {
+      resolve(swimmertimes);
+    }));
   }
 
   verifyHttpWasCalled(url :string) {

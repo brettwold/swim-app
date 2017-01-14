@@ -1,27 +1,22 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 
-import { MeetPayPage }      from './meetpay.ts'
-
+import { Entry }            from '../../models/entry';
 import { Meet }             from '../../models/meet';
 import { Swimmer }          from '../../models/swimmer';
-import { Entry }            from '../../models/entry';
 
 import { MeetService }      from '../../providers/meet.service';
 import { SwimData }         from '../../providers/swimdata';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'meetentry.html'
+  templateUrl: 'meetpay.html'
 })
-export class MeetEntryPage {
+export class MeetPayPage {
   errorMessage: string;
+  entry: Entry;
   meet: Meet;
   swimmer: Swimmer;
-  entries: Array<any>;
-  totalCost: number;
-
-  entry: Entry;
   mode = 'Observable';
 
   constructor(public navCtrl: NavController,
@@ -29,20 +24,20 @@ export class MeetEntryPage {
       public viewCtrl: ViewController,
       private meetService: MeetService,
       public config: SwimData) {
-    this.meet = this.params.get('meet');
-    this.swimmer = this.params.get('swimmer');
-    this.entries = this.params.get('entries');
-
-    this.entry = new Entry({
-      meet: this.meet,
-      swimmer: this.swimmer,
-      entries: this.entries,
-      admin_fee: this.meet.admin_fee,
-      cost_per_race: this.meet.cost_per_race
-    });
+        this.entry = this.params.get('entry');
+        this.meet = this.entry.meet;
+        this.swimmer = this.entry.swimmer;
   }
 
-  public confirmAndPay() {
-    this.navCtrl.push(MeetPayPage, { entry: this.entry } );
+  public pay() {
+    // TODO save entry here
+
+    // TODO submit to server
+
+    // TODO start payment process
+
+    // TODO confirm payment details to server
+  
   }
+
 }

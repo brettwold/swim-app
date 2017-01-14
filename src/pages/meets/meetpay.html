@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Meet Entry - Payment</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <h1>{{ meet.name }}</h1>
+      <h3>{{ swimmer.first_name }} {{ swimmer.last_name }}</h3>
+    </ion-card-header>
+    <ion-card-content>
+      <h1>Amount Due: {{ entry.total_cost | currency:'GBP':true }}</h1>
+      <ion-list>
+        <ion-item>
+          <button *ngIf="!entry.paid" ion-button block (click)="pay()">Pay Now</button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

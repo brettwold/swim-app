@@ -1,0 +1,57 @@
+{
+  "genders_arr":["M"],"entry_groups_arr":["11","5","6","7","8","9"],
+  "race_types_arr":["102","103","104","105","107","113","114","115","117","118","119","109","110","111"],
+  "entry_events":{
+    "M":{
+      "5":{"102":true,"103":true,"104":true,"105":true,"107":true,"109":true,"110":true,"111":true,"113":true,"114":true,"115":true,"117":true,"118":true,"119":true},
+      "6":{"102":true,"103":true,"104":true,"105":true,"107":true,"109":true,"110":true,"111":true,"113":true,"114":true,"115":true,"117":true,"118":true,"119":true},
+      "7":{"102":true,"103":true,"104":true,"105":true,"107":true,"109":true,"110":true,"111":true,"113":true,"114":true,"115":true,"117":true,"118":true,"119":true},
+      "8":{"102":true,"103":true,"104":true,"105":true,"107":true,"109":true,"110":true,"111":true,"113":true,"114":true,"115":true,"117":true,"118":true,"119":true},
+      "9":{"102":true,"103":true,"104":true,"105":true,"107":true,"109":true,"110":true,"111":true,"113":true,"114":true,"115":true,"117":true,"118":true,"119":true},
+      "11":{"102":true,"103":true,"104":true,"105":true,"107":true,"109":true,"110":true,"111":true,"113":true,"114":true,"115":true,"117":true,"118":true,"119":true}
+    }
+  },
+  "results_dir":"2017/05/16/south-east-regionals-under-14-2017",
+  "id":"e68b70d0-92db-11e6-88ab-bf42c54f0070",
+  "name":"South East Regionals Under 14 2017",
+  "title":null,
+  "meet_date":"2017-05-16",
+  "end_date":null,
+  "qual_date":"2016-06-01",
+  "venue":"Crawley K2",
+  "course_type":"SC","lanes":8,"meet_type":"Level 2","age_type":"AOD","genders":"M",
+  "entry_groups":"11,5,6,7,8,9",
+  "race_types":"102,103,104,105,107,113,114,115,117,118,119,109,110,111",
+  "cost_per_race":0,"admin_fee":0,"promoter":null,"final_lanes":null,"hdw":true,
+  "program_notes":null,"announcer":null,"junior":false,
+  "club_scores":null,"one_card":false,"all_heats":true,
+  "next_competitor_number":null,"meet_specific":false,
+  "multi_session":true,"num_sessions":0,"print_times":false,
+  "split_last_heats":false,"www_directory":null,"www_style":null,"www_class":null,"www_header":null,"www_footer":null,"gala_directory":null,
+  "work_directory":null,"notes":null,"is_open":true,"is_complete":false,
+  "created_at":"2016-10-15T13:33:04.480Z","updated_at":"2016-10-15T13:36:12.801Z",
+  "minimum_timesheet_id":11,
+  "maximum_timesheet_id":null,
+  "auto_timesheet_id":null,
+  "minimum_timesheet":{
+    "genders_arr":["M"],
+    "entry_groups_arr":["11","5","6","7","8","9"],
+    "race_types_arr":["102","103","104","105","107","113","114","115","117","118","119","109","110","111"],
+    "sheet":{
+      "M":{
+        "5":{"102":2940,"103":6460,"104":13970,"105":29090,"107":117360,"109":3470,"110":7430,"111":15780,"113":3940,"114":8660,"115":18670,"117":3320,"118":7780,"119":17960},
+        "6":{"102":2840,"103":6140,"104":13330,"105":27800,"107":111880,"109":3330,"110":7110,"111":14980,"113":3750,"114":8030,"115":17400,"117":3230,"118":7180,"119":16060},
+        "7":{"102":2680,"103":5750,"104":12670,"105":26720,"107":107700,"109":3090,"110":6600,"111":14650,"113":3620,"114":7560,"115":16630,"117":2960,"118":6580,"119":14900},
+        "8":{"102":2640,"103":5690,"104":12500,"105":26540,"107":106600,"109":3140,"110":6620,"111":14130,"113":3450,"114":7460,"115":16350,"117":2940,"118":6420,"119":14840},
+        "9":{"102":2460,"103":5330,"104":11860,"105":25170,"107":106000,"109":2980,"110":6230,"111":13560,"113":3240,"114":6940,"115":15360,"117":2730,"118":6050,"119":14570},
+        "11":{"102":3140,"103":6960,"104":14850,"105":30440,"107":124350,"109":3670,"110":7820,"111":16600,"113":4250,"114":9150,"115":19500,"117":3600,"118":8260,"119":18510}
+      }
+    },
+    "id":11,"level":2,"name":"SE Regional 2016","course_type":"SC","genders":"M",
+    "race_types":"102,103,104,105,107,113,114,115,117,118,119,109,110,111",
+    "entry_groups":"11,5,6,7,8,9",
+    "created_at":"2016-10-15T13:35:56.806Z","updated_at":"2016-10-15T13:35:56.806Z"
+  },
+  "maximum_timesheet":null,
+  "auto_timesheet":null
+}

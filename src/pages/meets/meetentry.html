@@ -4,28 +4,36 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h1>{{ meet.name }}</h1>
-  <h2>Entry Details</h2>
-  <ion-list *ngIf="entries">
-    <ion-list-header>Confirm entry events</ion-list-header>
-    <ion-item *ngFor="let race of entries">
-      <h2>{{ race.name }}</h2>
-      <h3 *ngIf="race.best">
-        Entry time:
-        <strong><display-time [time]="race.best.time">{{ race.best.time }}</display-time></strong>
-      </h3>
-      <ion-note item-right>{{ meet.cost_per_race | currency:'GBP':true }}</ion-note>
-    </ion-item>
-    <ion-item>
-      <h2>Admin fee</h2>
-      <ion-note item-right>{{ meet.admin_fee | currency:'GBP':true }}</ion-note>
-    </ion-item>
-    <ion-item>
-      <h2>TOTAL</h2>
-      <ion-note item-right>{{ totalCost | currency:'GBP':true }}</ion-note>
-    </ion-item>
-  </ion-list>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <h1>{{ meet.name }}</h1>
+      <h2>Entry Details</h2>
+      <h3>{{ swimmer.first_name }} {{ swimmer.last_name }}</h3>
+    </ion-card-header>
 
-  <button *ngIf="entries" ion-button (click)="confirmEntries()">Confirm and Pay</button>
+    <ion-list *ngIf="entries">
+      <ion-list-header>Entry events</ion-list-header>
+      <ion-item *ngFor="let race of entry.entries">
+        <h2>{{ race.name }}</h2>
+        <h3 *ngIf="race.best">
+          Entry time:
+          <strong><display-time [time]="race.best.time">{{ race.best.time }}</display-time></strong>
+        </h3>
+        <p item-right>{{ entry.cost_per_race | currency:'GBP':true }}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Admin fee</h2>
+        <p item-right>{{ entry.admin_fee | currency:'GBP':true }}</p>
+      </ion-item>
+      <ion-item>
+        <h2>TOTAL</h2>
+        <p item-right>{{ entry.total_cost | currency:'GBP':true }}</p>
+      </ion-item>
+      <ion-item>
+        <button *ngIf="entries" ion-button block (click)="confirmAndPay()">Confirm and Pay</button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
 </ion-content>

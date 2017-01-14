@@ -34,15 +34,18 @@ describe('ASA Service', () => {
     testEnv.verifyHttpWasCalled(TestEnvironment.TEST_ASA_URL + "individualbest/personal_best.php?mode=A&tiref=123456");
   });
 
-  it('should return a swimmer object', () => {
+  it('should return a swimmer object', (done) => {
     asaService.getSwimmer('123456').subscribe((swimmer) => {
       expect(swimmer).toBeDefined();
+      done();
     });
   });
 
-  it('should return the correct swimmer', () => {
+  it('should return the correct swimmer', (done) => {
     asaService.getSwimmer('123456').subscribe((swimmer) => {
+      expect(swimmer).toBeDefined();
       expect(swimmer.first_name).toEqual("Conor");
+      done();
     });
   });
 });
