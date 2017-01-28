@@ -45,7 +45,7 @@
     <ion-list *ngIf="entryEvents">
       <ion-list-header></ion-list-header>
       <ion-item *ngFor="let race of entryEvents">
-        <ion-toggle [(ngModel)]="race.entered" checked="true"></ion-toggle>
+        <ion-toggle [(ngModel)]="race.entered" checked="true" *ngIf="race.qualify"></ion-toggle>
         <ion-label>
           <h2>{{ race.name }}</h2>
           <h4>

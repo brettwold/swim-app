@@ -9,6 +9,7 @@ import { EnvService } from '../providers/env.service';
 import { SwimmersService } from '../providers/swimmers';
 import { SwimtimesService } from '../providers/swimtimes';
 import { MeetService } from '../providers/meet.service';
+import { EntryService } from '../providers/entry.service';
 import { AsaService } from '../providers/asa.service';
 import { TimeUtils } from '../providers/timeutils.service';
 import { SwimData } from '../providers/swimdata';
@@ -78,7 +79,8 @@ import { ValuesPipe } from '../models/values.pipe'
     TimeUtils,
     SwimmersService,
     SwimtimesService,
-    MeetService
+    MeetService,
+    EntryService
   ]
 })
 export class AppModule {}

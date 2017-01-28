@@ -6,6 +6,7 @@ import { Meet }             from '../../models/meet';
 import { Swimmer }          from '../../models/swimmer';
 
 import { MeetService }      from '../../providers/meet.service';
+import { EntryService }      from '../../providers/entry.service';
 import { SwimData }         from '../../providers/swimdata';
 
 @Component({
@@ -23,6 +24,7 @@ export class MeetPayPage {
       public params: NavParams,
       public viewCtrl: ViewController,
       private meetService: MeetService,
+      private entryService: EntryService,
       public config: SwimData) {
         this.entry = this.params.get('entry');
         this.meet = this.entry.meet;
@@ -30,14 +32,20 @@ export class MeetPayPage {
   }
 
   public pay() {
-    // TODO save entry here
+    // save entry here
+    console.log("hhshhs");
+    this.entryService.sendEntry(this.entry).subscribe((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
 
     // TODO submit to server
 
     // TODO start payment process
 
     // TODO confirm payment details to server
-  
+
   }
 
 }

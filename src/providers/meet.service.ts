@@ -35,8 +35,8 @@ export class MeetService extends HttpProvider {
   extractData(res :Response) {
       let body = res.json();
       let meets = new Array<Meet>();
-      for(let indx in body) {
-        meets.push(new Meet(body[indx]));
+      for(let indx in body.meets) {
+        meets.push(new Meet(body.meets[indx]));
       }
 
       return meets;
