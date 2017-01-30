@@ -85,7 +85,7 @@ export class TestEnvironment {
   }
 
   setupMeetGroups(groups :Array<number>) {
-    this.meet.entry_groups_arr = groups;
+    this.meet.entry_groups = groups;
   }
 
   setupSwimmerDateOfBirth(dob: string) {

@@ -67,9 +67,9 @@ export class MeetService extends HttpProvider {
 
   public getGroupForSwimmer(swimmer :Swimmer, meet :Meet) :any {
     let aam = this.ageAtMeet(swimmer, meet);
-    if (aam && meet.entry_groups_arr) {
-      for(let i = 0; i < meet.entry_groups_arr.length; i++) {
-        let entryGroup = this.swimData.entry_groups[meet.entry_groups_arr[i]];
+    if (aam && meet.entry_groups) {
+      for(let i = 0; i < meet.entry_groups.length; i++) {
+        let entryGroup = this.swimData.entry_groups[meet.entry_groups[i]];
         if(aam >= entryGroup.min && aam < entryGroup.max) {
           return entryGroup;
         }
@@ -78,43 +78,11 @@ export class MeetService extends HttpProvider {
     return '';
   }
 
-  public checkEventsAndGroups(meet :Meet) {
-    if(meet.minimum_timesheet) {
-      let timesheet = meet.minimum_timesheet;
-      meet.entry_groups_arr = new Array();
-      meet.race_types_arr = new Array();
-      meet.genders_arr = new Array();
-      meet.entry_events = {};
-
-      for(let group in timesheet.entry_groups_arr) {
-        meet.entry_groups_arr.push(timesheet.entry_groups_arr[group]);
-      }
-
-      for(let race_type in timesheet.race_types_arr) {
-        meet.race_types_arr.push(timesheet.race_types_arr[race_type]);
-      }
-
-      for(let gender in timesheet.genders_arr) {
-        meet.genders_arr.push(timesheet.genders_arr[gender]);
-      }
-
-      for(let i = 0; i < meet.genders_arr.length; i++) {
-        meet.entry_events[meet.genders_arr[i]] = {};
-        for(let j = 0; j < meet.entry_groups_arr.length; j++) {
-          meet.entry_events[meet.genders_arr[i]][meet.entry_groups_arr[j]] = {};
-          for(let k = 0; k < meet.race_types_arr.length; k++) {
-            meet.entry_events[meet.genders_arr[i]][meet.entry_groups_arr[j]][meet.race_types_arr[k]] = true;
-          }
-        }
-      }
-    }
-  }
-
   private processMinAndMax(swimmer :Swimmer, meet :Meet, deferred) {
     if(swimmer) {
       this.swimtimesService.getBestTimes(swimmer, meet.qual_date).then((bestTimes) => {
-        var mins = JSON.parse(meet.minimum_timesheet.timesheet_data);
-        var maxs = JSON.parse(meet.maximum_timesheet.timesheet_data);
+        var mins = JSON.parse(meet.minimum_timesheet.sheet);
+        var maxs = JSON.parse(meet.maximum_timesheet.sheet);
         var swimmerGroup = this.getGroupForSwimmer(swimmer, meet).id;
         var events = [];
         var types = meet.entry_events[swimmer.gender][swimmerGroup];
@@ -149,11 +117,11 @@ export class MeetService extends HttpProvider {
     if(swimmer) {
       this.swimtimesService.getBestTimes(swimmer, meet.qual_date).then((bestTimes) => {
         let events :Array<any> = new Array();
-        let mins = JSON.parse(meet.minimum_timesheet.timesheet_data);
+        let mins = meet.minimum_timesheet.sheet;
         let hasAutos = false;
         let autos;
         if(meet.auto_timesheet) {
-          autos = JSON.parse(meet.auto_timesheet.timesheet_data);
+          autos = meet.auto_timesheet.sheet;
           hasAutos = true;
         }
         let swimmerGroup = this.getGroupForSwimmer(swimmer, meet).id;

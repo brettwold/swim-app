@@ -22,7 +22,6 @@ export class SwimmersService {
     return new Promise((resolve, reject) => {
       this.platform.ready().then(() => {
         this.storage.get(this.SWIMMERS_STORE).then((val) => {
-          console.log("Got swimmers: " + val);
           if (val) {
             this.swimmers = JSON.parse(val);
             resolve(this.swimmers);
@@ -35,14 +34,12 @@ export class SwimmersService {
   }
 
   store(swimmer: Swimmer) {
-    console.log("Storing swimmer: " + swimmer.regno);
     this.swimmers[swimmer.regno] = swimmer;
     this.storage.set(this.SWIMMERS_STORE, JSON.stringify(this.swimmers)).then((result) => {
       for(let sTime in swimmer.times) {
         swimmer.times[sTime].swimmer_regno = swimmer.regno;
         this.swimtimesService.save(swimmer.times[sTime]);
       }
-      console.log("Stored swimmers: " + result);
       this.swimmersChange.next(this.swimmers);
     });
   }

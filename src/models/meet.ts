@@ -14,13 +14,12 @@ export class Meet {
   lanes: number;
   meet_type: string;
   age_type: string;
-  genders_arr: Array<any>;
-  entry_groups_arr: Array<any>;
-  race_types_arr: Array<any>;
+  genders: Array<any>;
+  entry_groups: Array<any>;
+  race_types: Array<any>;
   cost_per_race: number;
   admin_fee: number;
   promoter: string;
-  entry_events_data: string;
   minimum_timesheet: any;
   maximum_timesheet: any;
   auto_timesheet: any;

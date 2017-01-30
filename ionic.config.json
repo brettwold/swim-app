@@ -4,13 +4,15 @@
   "v2": true,
   "typescript": true,
   "proxies": [
-    {
-      "path": "/asa",
-      "proxyUrl": "https://swimmingresults.org/"
-    },
+
     {
       "path": "/api",
       "proxyUrl": "http://localhost:3456"
-    }
+    },
+
+        {
+          "path": "/asa",
+          "proxyUrl": "https://swimmingresults.org/"
+        }
   ]
 }

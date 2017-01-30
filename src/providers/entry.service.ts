@@ -6,7 +6,6 @@ import { EnvService }       from './env.service';
 import { HttpProvider }     from './http.provider';
 
 import { Entry }             from '../models/entry';
-import { Meet }             from '../models/meet';
 import { Swimmer }          from '../models/swimmer';
 
 @Injectable()
