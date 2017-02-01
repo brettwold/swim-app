@@ -1,5 +1,7 @@
 import { Injectable }       from '@angular/core';
 import { Http, Response }   from '@angular/http';
+import { AuthHttp }         from 'angular2-jwt';
+
 import { Observable }       from 'rxjs/Observable';
 
 import { EnvService }       from './env.service';
@@ -19,14 +21,13 @@ export class MeetService extends HttpProvider {
 
   private meets_url;
 
-  constructor (private http: Http, private env: EnvService, private swimData :SwimData,
+  constructor (private http: AuthHttp, private env: EnvService, private swimData :SwimData,
       private timeUtils :TimeUtils, private swimtimesService :SwimtimesService) {
     super();
     this.meets_url = env.getDataUrl() + 'meets';
   }
 
   getMeets(): Observable<Array<Meet>> {
-    console.log("Getting meets from: " + this.meets_url);
     return this.http.get(this.meets_url)
                     .map(res => this.extractData(res))
                     .catch(this.handleError);

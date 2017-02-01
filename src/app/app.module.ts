@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
-import { HttpModule, JsonpModule } from '@angular/http';
+import { Http, HttpModule, JsonpModule } from '@angular/http';
 import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
@@ -30,6 +30,41 @@ import { EntriesPage } from '../pages/entries/entries';
 import { DisplayTimeComponent }    from '../models/displaytime';
 import { CourseTypePipe } from '../models/coursetype.pipe'
 import { ValuesPipe } from '../models/values.pipe'
+
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+
+let storage = new Storage();
+
+export function getAuthHttp(http :Http, envService: EnvService) {
+  return new AuthHttp(new AuthConfig({
+    noJwtError: true,
+    globalHeaders: [{'Accept': 'application/json'}],
+    tokenGetter: (() => {
+      return new Promise((resolve, reject) => {
+        storage.get('id_token').then((token) => {
+          if(!token) {
+            http.post(envService.getDataUrl() + 'authenticate', {
+              access_key_id: envService.getAccessId(),
+              access_key_secret: envService.getAccessSecret()
+            }).subscribe((res) => {
+              if(res) {
+                let data = res.json();
+                if(data.access_token) {
+                  storage.set('id_token', data.access_token);
+                  resolve(token);
+                }
+                reject();      
+              }
+            });
+          } else {
+            resolve(token);
+          }
+        })
+      });
+    }),
+  }), http);
+}
+
 
 @NgModule({
   declarations: [
@@ -72,6 +107,11 @@ import { ValuesPipe } from '../models/values.pipe'
     SwimmerEditPage
   ],
   providers: [
+    {
+      provide: AuthHttp,
+      useFactory: getAuthHttp,
+      deps: [Http, EnvService]
+    },
     EnvService,
     Storage,
     AsaService,

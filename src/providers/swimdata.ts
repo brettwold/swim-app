@@ -7,7 +7,6 @@ import { EnvService }     from './env.service';
 
 import { DefaultSwimData }     from '../models/default.swimdata';
 
-
 @Injectable()
 export class SwimData extends HttpProvider {
   public static CONFIG_DATA_STORE :string = 'config_data';
