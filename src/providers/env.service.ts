@@ -4,7 +4,7 @@ import { Platform }       from 'ionic-angular';
 const PROD_ENV = {
   "PRODUCTION" : false,
   "ASA_URL"   : "https://swimmingresults.org/",
-  "DATA_URL"   : "https://meets.annalytics.co.uk/api/",
+  "DATA_URL"   : "https://meets.annalytics.co.uk/api/v1/",
   "API_ACCESS_ID" : "44ea2ffb-5033-4d07-b443-0d8d0f8c9329",
   "API_ACCESS_SECRET" : "oLV6lxr760m87Me5tCEUnISWTTrT63X9Zp7ZgbqvdkXbhnh5bvVeBEN5CJNJC3r7"
 };
@@ -12,7 +12,7 @@ const PROD_ENV = {
 const DEV_ENV = {
   "PRODUCTION" : false,
   "ASA_URL"   : "/asa/",
-  "DATA_URL"   : "http://meets.localhost:3456/api/",
+  "DATA_URL"   : "http://meets.localhost:3456/api/v1/",
   "API_ACCESS_ID" : "44ea2ffb-5033-4d07-b443-0d8d0f8c9329",
   "API_ACCESS_SECRET" : "oLV6lxr760m87Me5tCEUnISWTTrT63X9Zp7ZgbqvdkXbhnh5bvVeBEN5CJNJC3r7"
 };

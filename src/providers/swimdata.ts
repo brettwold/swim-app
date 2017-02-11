@@ -58,7 +58,6 @@ export class SwimData extends HttpProvider {
   }
 
   extractData(res: Response) {
-    console.log("Saving swimdata from online");
     this.storage.set(SwimData.CONFIG_DATA_STORE, res.json()).then(data => {
       Object.assign(this, res.json());
     });

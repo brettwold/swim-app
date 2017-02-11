@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Meet Entry</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="getMeets()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -9,9 +14,6 @@
     <ion-item *ngFor="let meet of meets" (click)="selectMeet(meet)">
       <h2>{{ meet.name }}</h2>
       <p>{{ meet.venue }} {{ meet.meet_date | date:'dd-MMM-yyyy' }}</p>
-    </ion-item>
-    <ion-item>
-      <button ion-button block outline (click)="getMeets()">Refresh</button>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -35,6 +35,10 @@ export class TimesPage {
                        error =>  this.errorMessage = <any>error);
   }
 
+  refresh() {
+    this.getSwimmer(this.swimmer.regno);
+  }
+
   getAllTimes(race_type) {
     this.asaService.getSwimmerTimes(this.swimmer.regno, race_type)
                       .subscribe(

@@ -1,18 +1,16 @@
 {
   "name": "SwimApp",
-  "app_id": "io.brettwold.swimapp",
   "v2": true,
   "typescript": true,
+  "app_id": "951b74cb",
   "proxies": [
-
     {
       "path": "/api",
       "proxyUrl": "http://localhost:3456"
     },
-
-        {
-          "path": "/asa",
-          "proxyUrl": "https://swimmingresults.org/"
-        }
+    {
+      "path": "/asa",
+      "proxyUrl": "https://swimmingresults.org/"
+    }
   ]
 }

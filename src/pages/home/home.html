@@ -39,9 +39,10 @@
               <h3>{{ swimmer.regno }} {{ swimmer.gender ? config.genders[swimmer.gender].name : "??" }} {{ swimmer.dob | date:'dd-MMM-yyyy' }}</h3>
               <p>{{ swimmer.club }}</p>
             </ion-col>
-            <ion-col width-20>
-              <button ion-button item-right outline (click)="editSwimmer(swimmer)">Edit</button>
-            </ion-col>
+            <ion-buttons end>
+              <button ion-button icon-only (click)="removeSwimmer(swimmer)"><ion-icon name="trash"></ion-icon></button>
+              <button ion-button icon-only (click)="editSwimmer(swimmer)"><ion-icon name="settings"></ion-icon></button>
+            </ion-buttons>
           </ion-row>
         </ion-grid>
       </ion-item>

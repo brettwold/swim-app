@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Http, HttpModule, JsonpModule } from '@angular/http';
 import { Storage } from '@ionic/storage';
 
@@ -17,6 +17,7 @@ import { SwimData } from '../providers/swimdata';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
+import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TimesPage } from '../pages/times/times';
 import { HistoryPage } from '../pages/times/history';
@@ -33,6 +34,16 @@ import { ValuesPipe } from '../models/values.pipe'
 
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': '951b74cb'
+  }
+};
+
+import * as LocalForage from 'localforage'
+LocalForage.setDriver([LocalForage.INDEXEDDB, LocalForage.WEBSQL, LocalForage.LOCALSTORAGE]);
 let storage = new Storage();
 
 export function getAuthHttp(http :Http, envService: EnvService) {
@@ -53,7 +64,7 @@ export function getAuthHttp(http :Http, envService: EnvService) {
                   storage.set('id_token', data.access_token);
                   resolve(token);
                 }
-                reject();      
+                reject();
               }
             });
           } else {
@@ -71,6 +82,7 @@ export function getAuthHttp(http :Http, envService: EnvService) {
     MyApp,
     AboutPage,
     ContactPage,
+    LoginPage,
     HomePage,
     TabsPage,
     TimesPage,
@@ -87,6 +99,7 @@ export function getAuthHttp(http :Http, envService: EnvService) {
   ],
   imports: [
     IonicModule.forRoot(MyApp),
+    CloudModule.forRoot(cloudSettings),
     HttpModule,
     JsonpModule
   ],
@@ -96,6 +109,7 @@ export function getAuthHttp(http :Http, envService: EnvService) {
     AboutPage,
     ContactPage,
     HomePage,
+    LoginPage,
     TabsPage,
     TimesPage,
     HistoryPage,
@@ -107,6 +121,7 @@ export function getAuthHttp(http :Http, envService: EnvService) {
     SwimmerEditPage
   ],
   providers: [
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: AuthHttp,
       useFactory: getAuthHttp,

@@ -33,13 +33,22 @@ export class SwimmersService {
     });
   }
 
+  remove(swimmer: Swimmer) {
+    delete this.swimmers[swimmer.regno];
+    this.updateSwimmers();
+  }
+
   store(swimmer: Swimmer) {
     this.swimmers[swimmer.regno] = swimmer;
+    for(let sTime in swimmer.times) {
+      swimmer.times[sTime].swimmer_regno = swimmer.regno;
+      this.swimtimesService.save(swimmer.times[sTime]);
+    }
+    this.updateSwimmers();
+  }
+
+  updateSwimmers() {
     this.storage.set(this.SWIMMERS_STORE, JSON.stringify(this.swimmers)).then((result) => {
-      for(let sTime in swimmer.times) {
-        swimmer.times[sTime].swimmer_regno = swimmer.regno;
-        this.swimtimesService.save(swimmer.times[sTime]);
-      }
       this.swimmersChange.next(this.swimmers);
     });
   }

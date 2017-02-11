@@ -15,8 +15,7 @@ import 'rxjs/Rx';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
-  inputs:['swimmers']
+  templateUrl: 'home.html'
 })
 export class HomePage {
 
@@ -26,13 +25,12 @@ export class HomePage {
 
   _subscription :Subscription;
 
-  constructor(public navCtrl: NavController,
+  constructor(
+          public navCtrl: NavController,
           private asaService: AsaService,
           private swimmersService: SwimmersService,
           private config: SwimData) {
-
     this.refresh();
-
     this._subscription = swimmersService.swimmersChange.subscribe((value) => {
       this.refreshSwimmers(value);
     });
@@ -52,11 +50,16 @@ export class HomePage {
   }
 
   public addSwimmer() {
+    console.log("hihihi");
     this.asaService.getSwimmer(this.asanum).subscribe((swimmer) => {
       this.swimmersService.store(swimmer);
     }, (error) => {
       this.errorMessage = <any>error
     });
+  }
+
+  public removeSwimmer(swimmer :Swimmer) {
+    this.swimmersService.remove(swimmer);
   }
 
   public editSwimmer(swimmer: Swimmer) {
