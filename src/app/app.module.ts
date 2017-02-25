@@ -52,7 +52,6 @@ let storage = new Storage();
 export function getInterceptHttp(backend: ConnectionBackend, defaultOptions: RequestOptions, envService: EnvService, storage: Storage) {
   return new HttpInterceptor(backend, defaultOptions, envService, storage, new AuthConfig({
     noJwtError: true,
-    noClientCheck: true,
     globalHeaders: [{'Accept': 'application/json'}]
   }));
 }
