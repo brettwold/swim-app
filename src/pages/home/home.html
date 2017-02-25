@@ -1,29 +1,19 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>SwimApp</ion-title>
+    <ion-title>SwimApp {{ user ? user.full_name : "" }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addSwimmer()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="removeToken()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>Add Swimmer</ion-card-header>
-    <ion-card-content>
-      Enter an ASA number below to add a swimmer
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-label stacked>ASA Number</ion-label>
-            <ion-input type="text" [(ngModel)]="asanum"></ion-input>
-          </ion-col>
-          <ion-col  width-20>
-             <button ion-button (click)="addSwimmer()">Add</button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
+  <ion-card *ngIf="swimmers && swimmers.length > 0">
     <ion-card-header>Swimmers</ion-card-header>
     <ion-list>
       <ion-item *ngFor="let swimmer of swimmers">
@@ -48,7 +38,11 @@
       </ion-item>
     </ion-list>
   </ion-card>
-
-  <button ion-button outline (click)="removeSwimmers()">Clear</button>
-  <button ion-button outline (click)="refresh()">Refresh</button>
+  <ion-content *ngIf="swimmers && swimmers.length == 0" padding>
+    <ion-list>
+      <h2>Welcome</h2>
+      <p>To get started you need to add at least one swimmer</p>
+      <button ion-button block (click)="addSwimmer()">Add</button>
+    </ion-list>
+  </ion-content>
 </ion-content>

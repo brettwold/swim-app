@@ -32,7 +32,10 @@ export class MeetsPage {
                          this.meets = meets;
                          console.log(meets);
                        },
-                       error =>  this.errorMessage = <any>error);
+                       error =>  {
+                         console.log(error);
+                         this.errorMessage = <any>error
+                       });
   }
 
   public selectMeet(meet :Meet) {

@@ -17,6 +17,7 @@ export class SwimmerEditPage {
   mode = 'Observable';
   config: any = {};
   genders: Array<any> = new Array();
+  showSaveButton :boolean = true;
 
   constructor(public navCtrl: NavController,
       public params: NavParams,
@@ -34,7 +35,8 @@ export class SwimmerEditPage {
 
   public save(swimmer: Swimmer) {
     console.log("Saving swimmer");
+    this.showSaveButton = false;
     this.swimmersService.store(swimmer);
-    this.navCtrl.pop();
+    this.navCtrl.popToRoot();
   }
 }

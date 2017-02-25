@@ -1,12 +1,11 @@
 import { Injectable }       from '@angular/core';
 import { Http, Response, Headers }   from '@angular/http';
-import { AuthHttp }         from 'angular2-jwt';
 import { Observable }       from 'rxjs/Observable';
 
 import { EnvService }       from './env.service';
 import { HttpProvider }     from './http.provider';
 
-import { Entry }             from '../models/entry';
+import { Entry }            from '../models/entry';
 import { Swimmer }          from '../models/swimmer';
 
 @Injectable()
@@ -15,7 +14,7 @@ export class EntryService extends HttpProvider {
   private entry_save_url: string;
   private entry_get_url: string;
 
-  constructor (private http: AuthHttp, private env: EnvService){
+  constructor (private http: Http, private env: EnvService){
     super();
     this.entry_save_url = env.getDataUrl() + 'entries/save';
   }

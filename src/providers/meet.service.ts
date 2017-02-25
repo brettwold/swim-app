@@ -1,6 +1,5 @@
 import { Injectable }       from '@angular/core';
 import { Http, Response }   from '@angular/http';
-import { AuthHttp }         from 'angular2-jwt';
 
 import { Observable }       from 'rxjs/Observable';
 
@@ -21,7 +20,7 @@ export class MeetService extends HttpProvider {
 
   private meets_url;
 
-  constructor (private http: AuthHttp, private env: EnvService, private swimData :SwimData,
+  constructor (private http: Http, private env: EnvService, private swimData :SwimData,
       private timeUtils :TimeUtils, private swimtimesService :SwimtimesService) {
     super();
     this.meets_url = env.getDataUrl() + 'meets';
@@ -34,6 +33,7 @@ export class MeetService extends HttpProvider {
   }
 
   extractData(res :Response) {
+    console.log(res);
       let body = res.json();
       let meets = new Array<Meet>();
       for(let indx in body.meets) {
@@ -41,6 +41,11 @@ export class MeetService extends HttpProvider {
       }
 
       return meets;
+  }
+
+  handleMeetError (error: Response | any) {
+    console.log(error);
+    return Observable.throw("Unable to get meets at this time");
   }
 
   public ageAtMeet(swimmer :Swimmer, meet :Meet) :number {

@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { Http, HttpModule, JsonpModule } from '@angular/http';
+import { Http, HttpModule, JsonpModule, XHRBackend, RequestOptions, ConnectionBackend } from '@angular/http';
 import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
@@ -11,13 +11,14 @@ import { SwimtimesService } from '../providers/swimtimes';
 import { MeetService } from '../providers/meet.service';
 import { EntryService } from '../providers/entry.service';
 import { AsaService } from '../providers/asa.service';
+import { UserService } from '../providers/user';
 import { TimeUtils } from '../providers/timeutils.service';
 import { SwimData } from '../providers/swimdata';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TimesPage } from '../pages/times/times';
 import { HistoryPage } from '../pages/times/history';
@@ -26,13 +27,15 @@ import { MeetEntryPage } from '../pages/meets/meetentry';
 import { MeetDetailPage } from '../pages/meets/meetdetail';
 import { MeetPayPage } from '../pages/meets/meetpay';
 import { SwimmerEditPage } from '../pages/swimmer/swimmer';
+import { AddPage } from '../pages/swimmer/add';
 import { EntriesPage } from '../pages/entries/entries';
 
 import { DisplayTimeComponent }    from '../models/displaytime';
 import { CourseTypePipe } from '../models/coursetype.pipe'
 import { ValuesPipe } from '../models/values.pipe'
 
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { HttpInterceptor } from '../providers/http-interceptor';
+import { AuthConfig } from '../providers/http-auth';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
@@ -46,43 +49,20 @@ import * as LocalForage from 'localforage'
 LocalForage.setDriver([LocalForage.INDEXEDDB, LocalForage.WEBSQL, LocalForage.LOCALSTORAGE]);
 let storage = new Storage();
 
-export function getAuthHttp(http :Http, envService: EnvService) {
-  return new AuthHttp(new AuthConfig({
+export function getInterceptHttp(backend: ConnectionBackend, defaultOptions: RequestOptions, envService: EnvService, storage: Storage) {
+  return new HttpInterceptor(backend, defaultOptions, envService, storage, new AuthConfig({
     noJwtError: true,
-    globalHeaders: [{'Accept': 'application/json'}],
-    tokenGetter: (() => {
-      return new Promise((resolve, reject) => {
-        storage.get('id_token').then((token) => {
-          if(!token) {
-            http.post(envService.getDataUrl() + 'authenticate', {
-              access_key_id: envService.getAccessId(),
-              access_key_secret: envService.getAccessSecret()
-            }).subscribe((res) => {
-              if(res) {
-                let data = res.json();
-                if(data.access_token) {
-                  storage.set('id_token', data.access_token);
-                  resolve(token);
-                }
-                reject();
-              }
-            });
-          } else {
-            resolve(token);
-          }
-        })
-      });
-    }),
-  }), http);
+    noClientCheck: true,
+    globalHeaders: [{'Accept': 'application/json'}]
+  }));
 }
-
 
 @NgModule({
   declarations: [
     MyApp,
     AboutPage,
     ContactPage,
-    LoginPage,
+    SignupPage,
     HomePage,
     TabsPage,
     TimesPage,
@@ -93,6 +73,7 @@ export function getAuthHttp(http :Http, envService: EnvService) {
     MeetPayPage,
     EntriesPage,
     SwimmerEditPage,
+    AddPage,
     DisplayTimeComponent,
     CourseTypePipe,
     ValuesPipe
@@ -109,7 +90,7 @@ export function getAuthHttp(http :Http, envService: EnvService) {
     AboutPage,
     ContactPage,
     HomePage,
-    LoginPage,
+    SignupPage,
     TabsPage,
     TimesPage,
     HistoryPage,
@@ -118,14 +99,15 @@ export function getAuthHttp(http :Http, envService: EnvService) {
     MeetEntryPage,
     MeetPayPage,
     EntriesPage,
-    SwimmerEditPage
+    SwimmerEditPage,
+    AddPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
-      provide: AuthHttp,
-      useFactory: getAuthHttp,
-      deps: [Http, EnvService]
+      provide: Http,
+      useFactory: getInterceptHttp,
+      deps: [XHRBackend, RequestOptions, EnvService, Storage]
     },
     EnvService,
     Storage,
@@ -135,7 +117,8 @@ export function getAuthHttp(http :Http, envService: EnvService) {
     SwimmersService,
     SwimtimesService,
     MeetService,
-    EntryService
+    EntryService,
+    UserService
   ]
 })
 export class AppModule {}

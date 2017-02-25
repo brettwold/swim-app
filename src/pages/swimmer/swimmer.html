@@ -28,6 +28,6 @@
   </ion-list>
 
   <div padding>
-    <button ion-button block (click)="save(swimmer)">Save</button>
+    <button ion-button block (click)="save(swimmer)" *ngIf="showSaveButton">Save</button>
   </div>
 </ion-content>

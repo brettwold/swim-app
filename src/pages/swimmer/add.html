@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Add Swimmer</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>Add Swimmer</h2>
+  <p>Enter an ASA number below to add a swimmer</p>
+  <p>{{errorMessage}}</p>
+  <ion-item>
+    <ion-label stacked>ASA Number</ion-label>
+    <ion-input type="text" [(ngModel)]="asanum"></ion-input>
+  </ion-item>
+  <button ion-button block (click)="addSwimmer()" *ngIf="showAddButton">Add</button>
+</ion-content>

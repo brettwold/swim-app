@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Signup</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>Firstname</ion-label>
+      <ion-input type="string" [(ngModel)]="firstname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Lastname</ion-label>
+      <ion-input type="string" [(ngModel)]="lastname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input type="string" [(ngModel)]="email"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button ion-button block (click)="signup()">Signup</button>
+</ion-content>
