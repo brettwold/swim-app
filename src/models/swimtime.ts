@@ -8,6 +8,7 @@ export class SwimTime {
   date: string;
   time: number;
   time_orig: string;
+  conv: number;
   fina_points: number;
   round: string;
   meet_name: string;

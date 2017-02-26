@@ -29,7 +29,10 @@
           <h2>{{ course_type.name }}</h2>
       </ion-list-header>
       <ion-item *ngFor="let time of swimmer.times | coursetype:course_type.code" (click)="getAllTimes(time.race_type)">
-        <div item-right class="list-time"><display-time [time]="time.time">{{ time.time }}</display-time></div>
+        <div item-right class="list-time">
+          <display-time [time]="time.time">{{ time.time }}</display-time><br/>
+          <ion-note><display-time [time]="time.conv">{{ time.conv }}</display-time></ion-note>
+        </div>
         <h2>{{ config.races[time.race_type].name }}</h2>
         <p>{{ time.meet_name }}</p>
         <p>{{ time.venue }}</p>

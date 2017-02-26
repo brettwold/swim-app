@@ -14,20 +14,21 @@ export class SwimData extends HttpProvider {
   private config_url;
   private static refresh = false;
 
-  meet_types :Array<string>;
-  levels :any;
-  lanes :Array<string>;
-  genders :any;
-  gender_aliases :any;
-  meet_age_types :Array<any>;
-  entry_groups :any;
-  group_aliases :any;
-  strokes :any;
-  races :any;
-  event_types :Array<any>;
-  course_types :Array<any>;
+  meet_types: Array<string>;
+  levels: any;
+  lanes: Array<string>;
+  genders: any;
+  gender_aliases: any;
+  meet_age_types: Array<any>;
+  entry_groups: any;
+  group_aliases: any;
+  strokes: any;
+  races: any;
+  event_types: Array<any>;
+  course_types: Array<any>;
+  turn_factors: Object;
 
-  constructor (private storage :Storage, private http: Http, private env: EnvService) {
+  constructor (private storage: Storage, private http: Http, private env: EnvService) {
     super();
     this.config_url = env.getDataUrl() + 'swimdata';
     this.initialise();

@@ -94,8 +94,8 @@ export class DefaultSwimData {
       208: { id: 208, name: "100m Backstroke", stroke: "BK", course_type: "LC", distance: 100, lengths: 2, team: false, asa_course: "L", asa_stroke: 14 },
       209: { id: 209, name: "200m Backstroke", stroke: "BK", course_type: "LC", distance: 200, lengths: 4, team: false, asa_course: "L", asa_stroke: 15 },
       210: { id: 210, name: "50m Breaststroke", stroke: "BR", course_type: "LC", distance: 50, lengths: 1, team: false, asa_course: "L", asa_stroke: 7 },
-      212: { id: 212, name: "200m Breaststroke", stroke: "BR", course_type: "LC", distance: 200, lengths: 4, team: false, asa_course: "L", asa_stroke: 8 },
       211: { id: 211, name: "100m Breaststroke", stroke: "BR", course_type: "LC", distance: 100, lengths: 2, team: false, asa_course: "L", asa_stroke: 9 },
+      212: { id: 212, name: "200m Breaststroke", stroke: "BR", course_type: "LC", distance: 200, lengths: 4, team: false, asa_course: "L", asa_stroke: 8 },
       213: { id: 213, name: "50m Butterfly", stroke: "BF", course_type: "LC", distance: 50, lengths: 1, team: false, asa_course: "L", asa_stroke: 10 },
       214: { id: 214, name: "100m Butterfly", stroke: "BF", course_type: "LC", distance: 100, lengths: 2, team: false, asa_course: "L", asa_stroke: 11 },
       215: { id: 215, name: "200m Butterfly", stroke: "BF", course_type: "LC", distance: 200, lengths: 4, team: false, asa_course: "L", asa_stroke: 12 },
@@ -115,6 +115,42 @@ export class DefaultSwimData {
     course_types: [
       {name: "Short course (25m)", code: "SC" },
       {name: "Long course (50m)", code: "LC" }
-    ]
+    ],
+    turn_factors: {
+      102: 42.245,
+      103: 42.245,
+      104: 43.786,
+      105: 44.233,
+      106: 45.525,
+      107: 46.221,
+      113: 63.616,
+      114: 63.616,
+      115: 66.598,
+      117: 38.269,
+      118: 38.269,
+      119: 39.76,
+      109: 40.5,
+      110: 40.5,
+      111: 41.98,
+      121: 49.7,
+      122: 55.366,
+      201: 42.245,
+      202: 42.245,
+      203: 43.786,
+      204: 44.233,
+      205: 45.525,
+      206: 46.221,
+      210: 63.616,
+      211: 63.616,
+      212: 66.598,
+      213: 38.269,
+      214: 38.269,
+      215: 39.76,
+      207: 40.5,
+      208: 40.5,
+      209: 41.98,
+      216: 49.7,
+      217: 55.366
+    }
   }
 }

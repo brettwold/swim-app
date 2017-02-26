@@ -27,7 +27,59 @@ export class TimesPage {
       public config: SwimData,
       private swimtimesService: SwimtimesService) {
             this.swimmer = this.params.get('swimmer');
+            for(let time of this.swimmer.times) {
+              time.conv = this.getConvertedTime(time);
+            }
             console.log(this.swimmer);
+  }
+
+  public getConvertedTime(time): number {
+    let timeinsecs: number = time.time/100;
+    if (time.race_type > 200) {
+      let turnFactor = this.config.turn_factors[time.race_type];
+      return (timeinsecs - ((turnFactor / timeinsecs) * 2))*100;
+    } else {
+      let turnFactor = this.config.turn_factors[parseInt(time.race_type)];
+      if (turnFactor) {
+        let roots =this.solveQuadraticEquation(1, -1*timeinsecs, turnFactor * -2);
+        return roots[1] * 100;
+        //T50*T50 - timeinsecs*T50 - turnFactor * 2 = 0;
+      }
+    }
+  }
+
+  solveQuadraticEquation(a: number, b: number, c: number): Array<number> {
+    let d: number = b * b - 4 * a * c;
+    let ds: number;
+    let mbmds: number;
+    let mbpds: number;
+
+    if (a === 0) {
+      if (b === 0) {
+        if (c === 0) {
+          return [0, 0, 0];
+        } else {
+          return [];
+        }
+      } else {
+        return [-c / b];
+      }
+    }
+
+    if (d < 0) {
+      return [];
+    } else if (d === 0) {
+      return [-b / (2 * a)];
+    }
+
+    ds = Math.sqrt(d);
+    if (b >= 0) {
+      mbmds = -b - ds;
+      return [mbmds / (2 * a), 2 * c / mbmds];
+    } else {
+      mbpds = -b + ds;
+      return [2 * c / mbpds, mbpds / (2 * a)];
+    }
   }
 
   getSwimmer(id) {
