@@ -30,20 +30,21 @@ export class TimesPage {
             for(let time of this.swimmer.times) {
               time.conv = this.getConvertedTime(time);
             }
-            console.log(this.swimmer);
   }
 
   public getConvertedTime(time): number {
     let timeinsecs: number = time.time/100;
-    if (time.race_type > 200) {
-      let turnFactor = this.config.turn_factors[time.race_type];
-      return (timeinsecs - ((turnFactor / timeinsecs) * 2))*100;
-    } else {
-      let turnFactor = this.config.turn_factors[parseInt(time.race_type)];
-      if (turnFactor) {
-        let roots =this.solveQuadraticEquation(1, -1*timeinsecs, turnFactor * -2);
+    let race = this.config.races[time.race_type];
+    let distPerHund = race.distance/100;
+    let numbTurnFactor = distPerHund*distPerHund*2;
+    let turnFactor = this.config.turn_factors[time.race_type];
+    console.log(race.distance + " " + numbTurnFactor);
+    if (turnFactor) {
+      if (time.race_type > 200) {
+        return (timeinsecs - ((turnFactor / timeinsecs) * numbTurnFactor))*100;
+      } else {
+        let roots = this.solveQuadraticEquation(1, -1*timeinsecs, -1*turnFactor*numbTurnFactor);
         return roots[1] * 100;
-        //T50*T50 - timeinsecs*T50 - turnFactor * 2 = 0;
       }
     }
   }
