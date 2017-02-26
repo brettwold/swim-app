@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 
 import { HistoryPage }        from '../../pages/times/history';
 
@@ -10,15 +10,17 @@ import { SwimData }           from '../../providers/swimdata';
 import { SwimtimesService }   from "../../providers/swimtimes";
 
 @Component({
-  selector: 'page-home',
+  selector: 'page-times',
   templateUrl: 'times.html'
 })
 export class TimesPage {
-  errorMessage: string;
+
+  course: string = 'SC';
   swimmer: Swimmer;
   mode = 'Observable';
 
   constructor(public navCtrl: NavController,
+      public toastCtrl: ToastController,
       public params: NavParams,
       public viewCtrl: ViewController,
       private asaService: AsaService,
@@ -29,10 +31,17 @@ export class TimesPage {
   }
 
   getSwimmer(id) {
-    this.asaService.getSwimmer(id)
-                     .subscribe(
-                       swimmer => this.swimmer = swimmer,
-                       error =>  this.errorMessage = <any>error);
+    this.asaService.getSwimmer(id).subscribe(swimmer => {
+      this.swimmer = swimmer;
+    }, error =>  {
+      console.log(error);
+      let toast = this.toastCtrl.create({
+       message: "Unable to get swimmer information at this time. Please try again later",
+       showCloseButton: true,
+       closeButtonText: 'OK'
+      });
+      toast.present();
+    });
   }
 
   refresh() {
@@ -40,20 +49,22 @@ export class TimesPage {
   }
 
   getAllTimes(race_type) {
-    this.asaService.getSwimmerTimes(this.swimmer.regno, race_type)
-                      .subscribe(
-                          (times) => {
-                            for(let sTime in times) {
-                              this.swimtimesService.save(times[sTime]);
-                            }
-                            this.navCtrl.push(HistoryPage, {
-                              swimmer: this.swimmer,
-                              times: times
-                            });
-                          },
-                          (error) =>  {
-                            this.errorMessage = <any>error
-                          });
+    this.asaService.getSwimmerTimes(this.swimmer.regno, race_type).subscribe((times) => {
+      for(let sTime in times) {
+        this.swimtimesService.save(times[sTime]);
+      }
+      this.navCtrl.push(HistoryPage, {
+        swimmer: this.swimmer,
+        times: times
+      });
+    }, (error) =>  {
+      console.log(error);
+      let toast = this.toastCtrl.create({
+       message: "Unable to get swimmer time information at this time. Please try again later",
+       showCloseButton: true,
+       closeButtonText: 'OK'
+      });
+      toast.present();
+    });
   }
-
 }

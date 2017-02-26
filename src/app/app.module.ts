@@ -34,8 +34,7 @@ import { DisplayTimeComponent }    from '../models/displaytime';
 import { CourseTypePipe } from '../models/coursetype.pipe'
 import { ValuesPipe } from '../models/values.pipe'
 
-import { HttpInterceptor } from '../providers/http-interceptor';
-import { AuthConfig } from '../providers/http-auth';
+import { HttpAuth } from '../providers/http-auth';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
@@ -49,11 +48,8 @@ import * as LocalForage from 'localforage'
 LocalForage.setDriver([LocalForage.INDEXEDDB, LocalForage.WEBSQL, LocalForage.LOCALSTORAGE]);
 let storage = new Storage();
 
-export function getInterceptHttp(backend: ConnectionBackend, defaultOptions: RequestOptions, envService: EnvService, storage: Storage) {
-  return new HttpInterceptor(backend, defaultOptions, envService, storage, new AuthConfig({
-    noJwtError: true,
-    globalHeaders: [{'Accept': 'application/json'}]
-  }));
+export function getHttpAuth(backend: ConnectionBackend, defaultOptions: RequestOptions, envService: EnvService, storage: Storage) {
+  return new HttpAuth(backend, defaultOptions, envService, storage);
 }
 
 @NgModule({
@@ -105,7 +101,7 @@ export function getInterceptHttp(backend: ConnectionBackend, defaultOptions: Req
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: Http,
-      useFactory: getInterceptHttp,
+      useFactory: getHttpAuth,
       deps: [XHRBackend, RequestOptions, EnvService, Storage]
     },
     EnvService,

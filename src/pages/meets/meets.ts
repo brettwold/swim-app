@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 
 import { MeetDetailPage }  from '../../pages/meets/meetdetail';
 
@@ -13,11 +13,11 @@ import { SwimData }         from '../../providers/swimdata';
   templateUrl: 'meets.html'
 })
 export class MeetsPage {
-  errorMessage: string;
   meets: Array<Meet>;
   mode = 'Observable';
 
   constructor(public navCtrl: NavController,
+      public toastCtrl: ToastController,
       public params: NavParams,
       public viewCtrl: ViewController,
       private meetService: MeetService,
@@ -26,16 +26,17 @@ export class MeetsPage {
   }
 
   getMeets() {
-    this.meetService.getMeets()
-                     .subscribe(
-                       meets => {
-                         this.meets = meets;
-                         console.log(meets);
-                       },
-                       error =>  {
-                         console.log(error);
-                         this.errorMessage = <any>error
-                       });
+    this.meetService.getMeets().subscribe(meets => {
+      this.meets = meets;
+    }, error =>  {
+      console.log(error);
+      let toast = this.toastCtrl.create({
+        message: "Unable to synchronise meet information at this time please try again later",
+        showCloseButton: true,
+        closeButtonText: 'OK'
+      });
+      toast.present();
+    });
   }
 
   public selectMeet(meet :Meet) {

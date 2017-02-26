@@ -8,7 +8,7 @@ import { SwimData }           from '../../providers/swimdata';
 import { SwimtimesService }   from "../../providers/swimtimes";
 
 @Component({
-  selector: 'page-home',
+  selector: 'page-times',
   templateUrl: 'history.html'
 })
 export class HistoryPage {
