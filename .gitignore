@@ -29,6 +29,11 @@ plugins/ios.json
 www/
 $RECYCLE.BIN/
 
+config.xml
+.io-config.json
+resources/
+
+
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
