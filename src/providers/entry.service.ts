@@ -20,19 +20,19 @@ export class EntryService extends HttpProvider {
   }
 
   sendEntry(entry: Entry): Observable<Entry>  {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
 
     let payload = {
-      meet_id: entry.meet.id,
-      swimmer: entry.swimmer,
-      entries: entry.entries,
-      admin_fee: entry.admin_fee,
-      cost_per_race: entry.cost_per_race
+      entry: {
+        meet_id: entry.meet.id,
+        swimmer: entry.swimmer,
+        entries: entry.entries,
+        admin_fee: entry.admin_fee,
+        cost_per_race: entry.cost_per_race
+      }
     };
 
     return this.http
-               .put(this.entry_save_url, JSON.stringify(payload), { headers: headers })
+               .put(this.entry_save_url, payload)
                .map(res => this.extractEntry(res))
                .catch(this.handleError);
   }

@@ -104,11 +104,10 @@ export class AsaService extends HttpProvider {
   }
 
   private processBestTimeTables(dom, swimmer) {
-    let self = this;
     swimmer.times = [];
 
-    dom.find('#rankTable').each(function(rankTableIndex, rankTable) {
-      jQuery(rankTable).find('tr').each(function(i, row) {
+    dom.find('#rankTable').each((rankTableIndex, rankTable) => {
+      jQuery(rankTable).find('tr').each((i, row) => {
         let time = new SwimTime();
         let selectcol = jQuery(row).find('td');
         let course_type = "LC";
@@ -118,7 +117,7 @@ export class AsaService extends HttpProvider {
         }
 
         if(selectcol.eq(0).text() != "") {
-          self.processDistanceAndStroke(time, course_type, selectcol.eq(0).text().trim());
+          this.processDistanceAndStroke(time, course_type, selectcol.eq(0).text().trim());
           if(selectcol.eq(0).children()[0].tagName == 'A') {
             time.more = true;
           } else {
@@ -127,16 +126,37 @@ export class AsaService extends HttpProvider {
           time.source = "ASA";
           time.setFormattedTime(selectcol.eq(1).text().trim());
           time.fina_points = selectcol.eq(2).text().trim();
-          time.date = self.formatDate(selectcol.eq(3).text().trim());
+          time.date = this.formatDate(selectcol.eq(3).text().trim());
           time.meet_name = selectcol.eq(4).text().trim();
           time.venue = selectcol.eq(5).text().trim();
           time.license = selectcol.eq(6).text().trim();
           time.level = selectcol.eq(7).text().trim();
           time.round = 'U';
+          time.conv = this.getConvertedTime(time);
           swimmer.times.push(time);
         }
       });
     });
+  }
+
+  public getConvertedTime(time): number {
+    let timeinsecs: number = time.time/100;
+    let race = this.swimData.races[time.race_type];
+    let distPerHund = race.distance/100;
+    let numbTurnFactor = distPerHund*distPerHund*2;
+    if (race.turn_factor) {
+      if (time.race_type > 200) {
+        let t25 = timeinsecs - ((race.turn_factor / timeinsecs) * numbTurnFactor);
+        return Math.round(t25 * 10) * 10;
+      } else {
+        let t50 = this.solveQuadraticEquation(1, -1*timeinsecs, -1*race.turn_factor*numbTurnFactor);
+        return Math.round(t50 * 10) * 10;
+      }
+    }
+  }
+
+  private solveQuadraticEquation(a: number, b: number, c: number): number {
+    return (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a);
   }
 
   private processAllTimeTables(dom, times, regno, race_type) {
