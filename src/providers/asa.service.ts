@@ -44,7 +44,7 @@ export class AsaService extends HttpProvider {
                     .catch(this.handleError);
   }
 
-  getSwimmerTimes (id, race_type): Observable<SwimTime>  {
+  getSwimmerTimes (id, race_type): Observable<SwimTime[]>  {
     let asaStroke = this.getAsaStrokeCode(race_type);
     let asaCourse = this.getAsaCourseCode(race_type);
     let url = this.asa_url + this.STROKE_HISTORY + id + this.ATTR_STOKE_TYPE + asaStroke + this.ATTR_COURSE_TYPE + asaCourse;
@@ -108,7 +108,7 @@ export class AsaService extends HttpProvider {
 
     dom.find('#rankTable').each((rankTableIndex, rankTable) => {
       jQuery(rankTable).find('tr').each((i, row) => {
-        let time = new SwimTime();
+        let time = new SwimTime({});
         let selectcol = jQuery(row).find('td');
         let course_type = "LC";
 
@@ -126,7 +126,7 @@ export class AsaService extends HttpProvider {
           time.source = "ASA";
           time.setFormattedTime(selectcol.eq(1).text().trim());
           time.fina_points = selectcol.eq(2).text().trim();
-          time.date = this.formatDate(selectcol.eq(3).text().trim());
+          time.setDateAchieved(this.formatDate(selectcol.eq(3).text().trim()));
           time.meet_name = selectcol.eq(4).text().trim();
           time.venue = selectcol.eq(5).text().trim();
           time.license = selectcol.eq(6).text().trim();
@@ -153,6 +153,7 @@ export class AsaService extends HttpProvider {
         return Math.round(t50 * 10) * 10;
       }
     }
+    return 0;
   }
 
   private solveQuadraticEquation(a: number, b: number, c: number): number {
@@ -163,7 +164,7 @@ export class AsaService extends HttpProvider {
     let self = this;
 
     dom.find('#rankTable').first().find('tr').each(function(i, row) {
-        let time = new SwimTime();
+        let time = new SwimTime({});
         let selectcol = jQuery(row).find('td');
 
         if(selectcol.eq(0).text() != "") {
@@ -172,12 +173,10 @@ export class AsaService extends HttpProvider {
           time.source = "ASA";
           time.setFormattedTime(selectcol.eq(0).text().trim());
           time.fina_points = selectcol.eq(1).text().trim();
-          time.date = self.formatDate(selectcol.eq(3).text().trim());
+          time.setDateAchieved(self.formatDate(selectcol.eq(3).text().trim()));
           time.meet_name = selectcol.eq(4).text().trim();
           time.venue = selectcol.eq(5).text().trim();
-          time.license = selectcol.eq(6).text().trim();
           time.level = selectcol.eq(7).text().trim();
-          time.round = selectcol.eq(2).text().trim();
           times.push(time);
         }
       });

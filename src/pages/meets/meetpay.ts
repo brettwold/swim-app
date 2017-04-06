@@ -10,7 +10,7 @@ import { EntryService }      from '../../providers/entry.service';
 import { SwimData }         from '../../providers/swimdata';
 
 @Component({
-  selector: 'page-home',
+  selector: 'meet-times',
   templateUrl: 'meetpay.html'
 })
 export class MeetPayPage {

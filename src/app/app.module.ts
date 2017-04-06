@@ -23,6 +23,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { TimesPage } from '../pages/times/times';
 import { HistoryPage } from '../pages/times/history';
 import { MeetsPage } from '../pages/meets/meets';
+import { QualifyingPage } from '../pages/qualifying/qualifying';
 import { MeetEntryPage } from '../pages/meets/meetentry';
 import { MeetDetailPage } from '../pages/meets/meetdetail';
 import { MeetPayPage } from '../pages/meets/meetpay';
@@ -62,6 +63,7 @@ export function getHttpAuth(backend: ConnectionBackend, defaultOptions: RequestO
     TabsPage,
     TimesPage,
     HistoryPage,
+    QualifyingPage,
     MeetsPage,
     MeetDetailPage,
     MeetEntryPage,
@@ -89,6 +91,7 @@ export function getHttpAuth(backend: ConnectionBackend, defaultOptions: RequestO
     TabsPage,
     TimesPage,
     HistoryPage,
+    QualifyingPage,
     MeetsPage,
     MeetDetailPage,
     MeetEntryPage,

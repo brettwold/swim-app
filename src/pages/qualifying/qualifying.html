@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Qualification Times</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="refresh()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-segment [(ngModel)]="area">
+      <ion-segment-button value="county">
+        County
+      </ion-segment-button>
+      <ion-segment-button value="region">
+        Regional
+      </ion-segment-button>
+      <ion-segment-button value="national">
+        National
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="area">
+    <ion-list *ngSwitchCase="'county'">
+      <ion-item>
+        <ion-label stacked>Choose preferred county</ion-label>
+        <ion-select [(ngModel)]="county">
+          <ion-option *ngFor="let county of counties" value="{{county.code}}">{{county.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'region'">
+      <ion-item>
+        <ion-label stacked>Choose preferred region</ion-label>
+        <ion-select [(ngModel)]="region">
+          <ion-option *ngFor="let region of regions" value="{{region.code}}">{{region.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

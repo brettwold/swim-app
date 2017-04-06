@@ -11,7 +11,7 @@ import { MeetService }      from '../../providers/meet.service';
 import { SwimData }         from '../../providers/swimdata';
 
 @Component({
-  selector: 'page-home',
+  selector: 'meet-times',
   templateUrl: 'meetentry.html'
 })
 export class MeetEntryPage {

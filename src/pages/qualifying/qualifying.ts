@@ -4,20 +4,26 @@ import { NavController, NavParams, ViewController, ToastController } from 'ionic
 import { HistoryPage }        from '../../pages/times/history';
 
 import { Swimmer }            from '../../models/swimmer';
-import { SwimTime }            from '../../models/swimtime';
 
 import { AsaService }         from '../../providers/asa.service';
 import { SwimData }           from '../../providers/swimdata';
-import { SwimmersService }   from "../../providers/swimmers";
 import { SwimtimesService }   from "../../providers/swimtimes";
 
 @Component({
-  selector: 'page-times',
-  templateUrl: 'times.html'
+  selector: 'qual-times',
+  templateUrl: 'qualifying.html'
 })
-export class TimesPage {
+export class QualifyingPage {
 
-  course: string = 'SC';
+  area: string = 'county';
+  county: string = 'HNTS';
+  region: string = 'SE';
+  national: string = 'E';
+
+  counties: Array<any>;
+  regions: Array<any>;
+  nations: Array<any>;
+
   swimmer: Swimmer;
   mode = 'Observable';
 
@@ -27,16 +33,25 @@ export class TimesPage {
       public viewCtrl: ViewController,
       private asaService: AsaService,
       public config: SwimData,
-      private swimmersService: SwimmersService,
       private swimtimesService: SwimtimesService) {
             this.swimmer = this.params.get('swimmer');
+            this.counties = new Array<any>();
+            for(let county in config.counties) {
+              let obj = config.counties[county];
+              obj.code = county;
+              this.counties.push(obj);
+            }
+            this.regions = new Array<any>();
+            for(let region in config.regions) {
+              let obj = config.regions[region];
+              obj.code = region;
+              this.regions.push(obj);
+            }
   }
 
   getSwimmer(id) {
     this.asaService.getSwimmer(id).subscribe(swimmer => {
-      this.swimmer.times = swimmer.times;
-      this.swimmersService.store(swimmer);
-      this.saveTimes(swimmer.times);
+      this.swimmer = swimmer;
     }, error =>  {
       console.log(error);
       let toast = this.toastCtrl.create({
@@ -54,7 +69,9 @@ export class TimesPage {
 
   getAllTimes(race_type) {
     this.asaService.getSwimmerTimes(this.swimmer.regno, race_type).subscribe((times) => {
-      this.saveTimes(times);
+      for(let sTime in times) {
+        this.swimtimesService.save(times[sTime]);
+      }
       this.navCtrl.push(HistoryPage, {
         swimmer: this.swimmer,
         times: times
@@ -68,11 +85,5 @@ export class TimesPage {
       });
       toast.present();
     });
-  }
-
-  saveTimes(times :Array<SwimTime>) {
-    for(let sTime in times) {
-      this.swimtimesService.save(times[sTime]);
-    }
   }
 }

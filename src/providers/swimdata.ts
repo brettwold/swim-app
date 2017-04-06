@@ -26,7 +26,8 @@ export class SwimData extends HttpProvider {
   races: any;
   event_types: Array<any>;
   course_types: Array<any>;
-  turn_factors: Object;
+  counties: any;
+  regions: any;
 
   constructor (private storage: Storage, private http: Http, private env: EnvService) {
     super();

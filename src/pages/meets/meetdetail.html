@@ -53,12 +53,12 @@
             <span *ngIf="race.auto">Auto: <display-time [time]="race.auto">{{ race.auto }}</display-time></span>
             <span *ngIf="race.max">Max: <display-time [time]="race.max">{{ race.max }}</display-time></span>
           </h4>
-          <h3 *ngIf="race.best">
+          <h3 *ngIf="race.qualify" [ngClass]="{'auto-time': race.qualify_auto }">
             <span *ngIf="race.qualify_auto">Auto</span><span *ngIf="!race.qualify_auto">Base</span>:
             <strong><display-time [time]="race.best.time">{{ race.best.time }}</display-time></strong> <em>{{ race.best.date | date:'dd-MMM-yyyy' }}</em>
           </h3>
-          <h3 *ngIf="!race.best">
-            No qualifying time
+          <h3 *ngIf="!race.qualify">
+            No qualifying time <span *ngIf="race.best">best <display-time [time]="race.best.time">{{ race.best.time }}</display-time></span>
           </h3>
         </ion-label>
       </ion-item>

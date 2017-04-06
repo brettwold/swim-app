@@ -9,7 +9,7 @@ import { MeetService }      from '../../providers/meet.service';
 import { SwimData }         from '../../providers/swimdata';
 
 @Component({
-  selector: 'page-home',
+  selector: 'meet-times',
   templateUrl: 'meets.html'
 })
 export class MeetsPage {

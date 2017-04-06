@@ -33,6 +33,10 @@ export class SwimmersService {
     });
   }
 
+  get(regno: string) :Swimmer {
+    return this.swimmers[regno];
+  }
+
   remove(swimmer: Swimmer) {
     delete this.swimmers[swimmer.regno];
     this.updateSwimmers();
