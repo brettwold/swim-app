@@ -35,7 +35,7 @@ export class TimesPage {
   getSwimmer(id) {
     this.asaService.getSwimmer(id).subscribe(swimmer => {
       this.swimmer.times = swimmer.times;
-      this.swimmersService.store(swimmer);
+      this.swimmersService.store(this.swimmer);
       this.saveTimes(swimmer.times);
     }, error =>  {
       console.log(error);
