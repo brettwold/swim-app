@@ -29,10 +29,10 @@ plugins/ios.json
 www/
 $RECYCLE.BIN/
 
-config.xml
 .io-config.json
 resources/
 
+releases/
 
 .DS_Store
 Thumbs.db

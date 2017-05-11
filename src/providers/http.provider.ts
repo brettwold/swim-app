@@ -1,7 +1,6 @@
 import { Injectable }     from '@angular/core';
 import { Response }       from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
-import { EnvService }     from './env.service';
 
 @Injectable()
 export class HttpProvider {

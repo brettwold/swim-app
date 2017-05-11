@@ -3,17 +3,14 @@ import { Component } from '@angular/core';
 import { NavController }      from 'ionic-angular';
 import { TimesPage }          from '../../pages/times/times';
 import { SwimmerEditPage }    from '../../pages/swimmer/swimmer';
-import { SignupPage }         from '../../pages/signup/signup';
 
 import { Swimmer }            from '../../models/swimmer';
-import { User }               from '../../models/user';
 
 import { SwimData }           from '../../providers/swimdata';
 import { AsaService }         from '../../providers/asa.service';
 import { SwimmersService }    from "../../providers/swimmers";
 import { UserService }        from "../../providers/user";
 
-import { Subscription }       from 'rxjs/Subscription';
 import 'rxjs/Rx';
 
 @Component({

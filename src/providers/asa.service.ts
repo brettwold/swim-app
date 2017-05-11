@@ -140,6 +140,7 @@ export class AsaService extends HttpProvider {
   }
 
   public getConvertedTime(time): number {
+
     let timeinsecs: number = time.time/100;
     let race = this.swimData.races[time.race_type];
     let distPerHund = race.distance/100;

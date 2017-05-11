@@ -1,7 +1,10 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Http, HttpModule, JsonpModule, XHRBackend, RequestOptions, ConnectionBackend } from '@angular/http';
-import { Storage } from '@ionic/storage';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicStorageModule, Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
@@ -30,6 +33,7 @@ import { MeetPayPage } from '../pages/meets/meetpay';
 import { SwimmerEditPage } from '../pages/swimmer/swimmer';
 import { AddPage } from '../pages/swimmer/add';
 import { EntriesPage } from '../pages/entries/entries';
+import { EntryDetailPage } from '../pages/entries/entrydetail';
 
 import { DisplayTimeComponent }    from '../models/displaytime';
 import { CourseTypePipe } from '../models/coursetype.pipe'
@@ -37,17 +41,8 @@ import { ValuesPipe } from '../models/values.pipe'
 
 import { HttpAuth } from '../providers/http-auth';
 
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-
-const cloudSettings: CloudSettings = {
-  'core': {
-    'app_id': '951b74cb'
-  }
-};
-
 import * as LocalForage from 'localforage'
 LocalForage.setDriver([LocalForage.INDEXEDDB, LocalForage.WEBSQL, LocalForage.LOCALSTORAGE]);
-let storage = new Storage();
 
 export function getHttpAuth(backend: ConnectionBackend, defaultOptions: RequestOptions, envService: EnvService, storage: Storage) {
   return new HttpAuth(backend, defaultOptions, envService, storage);
@@ -69,6 +64,7 @@ export function getHttpAuth(backend: ConnectionBackend, defaultOptions: RequestO
     MeetEntryPage,
     MeetPayPage,
     EntriesPage,
+    EntryDetailPage,
     SwimmerEditPage,
     AddPage,
     DisplayTimeComponent,
@@ -76,9 +72,10 @@ export function getHttpAuth(backend: ConnectionBackend, defaultOptions: RequestO
     ValuesPipe
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
-    CloudModule.forRoot(cloudSettings),
+    BrowserModule,
     HttpModule,
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     JsonpModule
   ],
   bootstrap: [IonicApp],
@@ -97,6 +94,7 @@ export function getHttpAuth(backend: ConnectionBackend, defaultOptions: RequestO
     MeetEntryPage,
     MeetPayPage,
     EntriesPage,
+    EntryDetailPage,
     SwimmerEditPage,
     AddPage
   ],
@@ -107,8 +105,9 @@ export function getHttpAuth(backend: ConnectionBackend, defaultOptions: RequestO
       useFactory: getHttpAuth,
       deps: [XHRBackend, RequestOptions, EnvService, Storage]
     },
+    StatusBar,
+    SplashScreen,
     EnvService,
-    Storage,
     AsaService,
     SwimData,
     TimeUtils,

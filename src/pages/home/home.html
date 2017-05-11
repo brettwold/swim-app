@@ -1,43 +1,54 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>SwimApp {{ user ? user.full_name : "" }}</ion-title>
+    <ion-buttons left>
+      <img src="assets/icon/icon.png" class="navicon"/>
+    </ion-buttons>
+    <ion-title>Swimz</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="addSwimmer()">
+      <!--
+      <button ion-button icon-only>
         <ion-icon name="add"></ion-icon>
       </button>
       <button ion-button icon-only (click)="removeToken()">
         <ion-icon name="log-out"></ion-icon>
-      </button>
+      </button
+      -->
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-card *ngIf="swimmers && swimmers.length > 0">
-    <ion-card-header>Swimmers</ion-card-header>
-    <ion-list>
-      <ion-item *ngFor="let swimmer of swimmers">
+  <ion-content *ngIf="swimmers && swimmers.length > 0">
+    <ion-card *ngFor="let swimmer of swimmers">
+      <ion-card-header>
+        <ion-row>
+          <ion-col col-11 (click)="selectSwimmer(swimmer)"><h2>{{ swimmer.first_name }} {{ swimmer.last_name }}</h2></ion-col>
+          <ion-col col-1>
+            <ion-icon name="close" (click)="removeSwimmer(swimmer)"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card-header>
+      <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col (click)="selectSwimmer(swimmer)" width-10>
-              <ion-icon name="man" *ngIf="swimmer.gender == 'M'"></ion-icon>
-              <ion-icon name="woman" *ngIf="swimmer.gender == 'F'"></ion-icon>
-              <ion-icon name="help" *ngIf="!swimmer.gender"></ion-icon>
+            <ion-col col-2 (click)="selectSwimmer(swimmer)">
+              <ion-icon name="man" *ngIf="swimmer.gender == 'M'" class="listicon"></ion-icon>
+              <ion-icon name="woman" *ngIf="swimmer.gender == 'F'" class="listicon"></ion-icon>
+              <ion-icon name="help" *ngIf="!swimmer.gender" class="listicon"></ion-icon>
             </ion-col>
-            <ion-col (click)="selectSwimmer(swimmer)">
-              <h2>{{ swimmer.first_name }} {{ swimmer.last_name }}</h2>
-              <h3>{{ swimmer.regno }} {{ swimmer.gender ? config.genders[swimmer.gender].name : "??" }} {{ swimmer.dob | date:'dd-MMM-yyyy' }}</h3>
+            <ion-col col-8 (click)="selectSwimmer(swimmer)">
+              <p>{{ swimmer.regno }}</p>
+              <p>{{ swimmer.gender ? config.genders[swimmer.gender].name : "??" }} {{ swimmer.dob | date:'dd-MMM-yyyy' }}</p>
               <p>{{ swimmer.club }}</p>
             </ion-col>
-            <ion-buttons end>
-              <button ion-button icon-only (click)="removeSwimmer(swimmer)"><ion-icon name="trash"></ion-icon></button>
+            <ion-col col-2>
               <button ion-button icon-only (click)="editSwimmer(swimmer)"><ion-icon name="settings"></ion-icon></button>
-            </ion-buttons>
+            </ion-col>
           </ion-row>
         </ion-grid>
-      </ion-item>
-    </ion-list>
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
   <ion-content *ngIf="swimmers && swimmers.length == 0" padding>
     <ion-list>
       <h2>Welcome</h2>
@@ -45,4 +56,9 @@
       <button ion-button block (click)="addSwimmer()">Add</button>
     </ion-list>
   </ion-content>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="addSwimmer()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+
 </ion-content>

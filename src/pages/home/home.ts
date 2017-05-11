@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { NavController }      from 'ionic-angular';
 import { TimesPage }          from '../../pages/times/times';
 import { SwimmerEditPage }    from '../../pages/swimmer/swimmer';
-import { SignupPage }         from '../../pages/signup/signup';
 import { AddPage }            from '../../pages/swimmer/add';
 
 import { Swimmer }            from '../../models/swimmer';

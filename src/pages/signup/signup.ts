@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
-import { User } from '../../models/user';
 import { UserService } from '../../providers/user';
 
 @Component({

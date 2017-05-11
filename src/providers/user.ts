@@ -1,5 +1,5 @@
 import { Injectable }     from '@angular/core';
-import { Http, Response, Headers }   from '@angular/http';
+import { Http, Response }   from '@angular/http';
 
 import { Storage }        from '@ionic/storage';
 import { Platform }       from 'ionic-angular';
@@ -8,7 +8,6 @@ import { EnvService }       from './env.service';
 import { HttpProvider }     from './http.provider';
 
 import { Observable }     from 'rxjs/Observable';
-import { Subject }        from 'rxjs/Subject';
 
 import { User } from '../models/user';
 

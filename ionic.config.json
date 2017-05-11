@@ -1,5 +1,6 @@
 {
-  "name": "SwimApp",
+  "name": "Swimz",
+  "description": "Swimz in an application that lets you keep track of your swim times (UK). Times are automatically populated and stored on your device so once cached you can see your times with or without data network access.",
   "v2": true,
   "typescript": true,
   "app_id": "951b74cb",
