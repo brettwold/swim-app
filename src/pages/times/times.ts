@@ -32,6 +32,11 @@ export class TimesPage {
             this.swimmer = this.params.get('swimmer');
   }
 
+  ionViewDidLoad() {
+    console.log("Refreshing times");
+    this.refresh();
+  }
+
   getSwimmer(id) {
     this.asaService.getSwimmer(id).subscribe(swimmer => {
       this.swimmer.times = swimmer.times;
