@@ -1,0 +1,11 @@
+{
+  "/asa/*" : {
+    "target": "https://swimmingresults.org/",
+    "pathRewrite": {
+      "^/asa": ""
+    },
+    "changeOrigin": true,
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <img src="assets/icon/icon.png" class="navicon"/>
+    </ion-buttons>
+    <ion-title>Swimz</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-content *ngIf="swimmers && swimmers.length > 0">
+    <ion-card *ngFor="let swimmer of swimmers">
+      <ion-card-header>
+        <ion-grid>
+        <ion-row>
+          <ion-col size="11" (click)="selectSwimmer(swimmer)"><h2>{{ swimmer.first_name }} {{ swimmer.last_name }}</h2></ion-col>
+          <ion-col size="1">
+            <ion-icon name="close" (click)="removeSwimmer(swimmer)"></ion-icon>
+          </ion-col>
+        </ion-row>
+        </ion-grid>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="2" (click)="selectSwimmer(swimmer)">
+              <ion-icon name="man" *ngIf="swimmer.gender == 'M'" class="listicon"></ion-icon>
+              <ion-icon name="woman" *ngIf="swimmer.gender == 'F'" class="listicon"></ion-icon>
+              <ion-icon name="help" *ngIf="!swimmer.gender" class="listicon"></ion-icon>
+            </ion-col>
+            <ion-col size="8" (click)="selectSwimmer(swimmer)">
+              <p>{{ swimmer.regno }}</p>
+              <p>{{ swimmer.gender ? config.genders[swimmer.gender].name : "??" }} {{ swimmer.dob | date:'dd-MMM-yyyy' }}</p>
+              <p>{{ swimmer.club }}</p>
+            </ion-col>
+            <ion-col size="2">
+              <ion-button icon-only (click)="editSwimmer(swimmer)" color="light"><ion-icon name="settings"></ion-icon></ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+  <ion-content *ngIf="swimmers && swimmers.length == 0" padding>
+    <ion-list>
+      <h2>Welcome</h2>
+      <p>To get started you need to add at least one swimmer</p>
+      <ion-button block (click)="addSwimmer()">Add</ion-button>
+    </ion-list>
+  </ion-content>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="addSwimmer()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

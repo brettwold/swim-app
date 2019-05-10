@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Swimmer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>First name</ion-label>
+      <ion-input type="string" [(ngModel)]="swimmer.first_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Last name</ion-label>
+      <ion-input type="string" [(ngModel)]="swimmer.last_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Date of birth</ion-label>
+      <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="swimmer.dob"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Gender</ion-label>
+      <ion-select [(ngModel)]="swimmer.gender">
+        <ion-select-option *ngFor="let gender of genders | values:'code'" value="{{gender.code}}">{{gender.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <div padding>
+    <ion-button block (click)="save(swimmer)" *ngIf="showSaveButton">Save</ion-button>
+  </div>
+</ion-content>
