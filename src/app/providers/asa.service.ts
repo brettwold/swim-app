@@ -1,13 +1,13 @@
 import { Injectable }     from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HTTP, HTTPResponse }           from '@ionic-native/http/ngx';
 import { Observable }     from 'rxjs/Observable';
 
 import { EnvService }     from './env.service';
-import { HttpProvider }   from './http.provider';
 import { SwimData }       from './swimdata';
 
 import { Swimmer }        from '../models/swimmer';
 import { SwimTime }       from '../models/swimtime';
+import { from }           from 'rxjs';
 
 import * as moment from 'moment';
 
@@ -18,7 +18,7 @@ import 'rxjs/Rx';
 const jQuery: JQueryStatic = jquery;
 
 @Injectable()
-export class AsaService extends HttpProvider {
+export class AsaService {
   private INDIVIDUAL_BEST = 'individualbest/personal_best.php?mode=A&tiref=';
   private STROKE_HISTORY = 'individualbest/personal_best_time_date.php?mode=A&tiref='
   private ATTR_STOKE_TYPE = '&tstroke='
@@ -31,19 +31,18 @@ export class AsaService extends HttpProvider {
     'Individual': 'IM',
   };
 
-  private asa_url :string;
+  private asa_url: string;
 
-  constructor (private http: Http, private env: EnvService, private swimData: SwimData) {
-    super();
+  constructor (private http: HTTP, private env: EnvService, private swimData: SwimData) {
     this.asa_url = env.getAsaUrl();
   }
 
   getSwimmer (id): Observable<Swimmer> {
     let url = this.asa_url + this.INDIVIDUAL_BEST + id;
     console.log( url );
-    return this.http.get(url)
-                    .map(res => this.extractData(res))
-                    .catch(this.handleError);
+    return from(this.http.get(url, {}, {}))
+                .map(res => this.extractData(res))
+                .catch(this.handleError);
   }
 
   getSwimmerTimes (id, race_type): Observable<SwimTime[]>  {
@@ -51,9 +50,9 @@ export class AsaService extends HttpProvider {
     let asaCourse = this.getAsaCourseCode(race_type);
     let url = this.asa_url + this.STROKE_HISTORY + id + this.ATTR_STOKE_TYPE + asaStroke + this.ATTR_COURSE_TYPE + asaCourse;
 
-    return this.http.get(url)
-                    .map(res => this.extractTimes(id, race_type, res))
-                    .catch(this.handleError);
+    return from(this.http.get(url, {}, {}))
+              .map(res => this.extractTimes(id, race_type, res))
+              .catch(this.handleError);
   }
 
   private removeBrackets (str): String {
@@ -194,8 +193,8 @@ export class AsaService extends HttpProvider {
     return this.swimData.races[race_type].asa_course
   }
 
-  private extractData(res :Response) {
-    let dom = jQuery(res.text());
+  private extractData(res :HTTPResponse): Swimmer {
+    let dom = jQuery(res.data);
     let swimmer :any = {};
     let names = dom.find('.rankingsContent p').first().text();
     this.processName(swimmer, names);
@@ -205,12 +204,25 @@ export class AsaService extends HttpProvider {
     return newSwimmer;
   }
 
-  private extractTimes(regno: string, race_type: number, res: Response) {
-    let dom = jQuery(res.text());
+  private extractTimes(regno: string, race_type: number, res: HTTPResponse) {
+    let dom = jQuery(res.data);
     let times: Array<SwimTime> = new Array();
 
     this.processAllTimeTables(dom, times, regno, race_type);
 
     return times;
+  }
+
+  protected handleError (error: HTTPResponse) {
+    // In a real world app, we might use a remote logging infrastructure
+    let errMsg: string;
+    if(error.status == 401) {
+      console.log("We need to refresh auth token");
+
+    }
+    const body = error.data || '';
+    const err = body.error || JSON.stringify(body);
+    errMsg = `${error.status} || ''} ${err}`;
+    return Observable.throw(errMsg);
   }
 }

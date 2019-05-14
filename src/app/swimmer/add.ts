@@ -14,7 +14,8 @@ import 'rxjs/Rx';
 
 @Component({
   selector: 'page-add',
-  templateUrl: 'add.html'
+  templateUrl: 'add.html',
+  styleUrls: ['add.scss']
 })
 export class AddPage {
 

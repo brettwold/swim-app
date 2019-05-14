@@ -62,6 +62,7 @@ export class HomePage {
 
   public removeSwimmer(swimmer :Swimmer) {
     this.swimmersService.remove(swimmer);
+    this.refresh();
   }
 
   public editSwimmer(swimmer: Swimmer) {
