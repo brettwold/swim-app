@@ -3,14 +3,10 @@ import { Router } from '@angular/router';
 
 import { Storage } from '@ionic/storage';
 
-import { TimesPage }          from '../times/times';
-import { SwimmerEditPage }    from '../swimmer/swimmer';
-import { AddPage }            from '../swimmer/add';
-
 import { Swimmer }            from '../models/swimmer';
 
 import { SwimData }           from '../providers/swimdata';
-import { SwimmersService }    from "../providers/swimmers";
+import { SwimmersService }    from '../providers/swimmers';
 
 import { Subscription }       from 'rxjs/Subscription';
 import 'rxjs/Rx';
@@ -28,11 +24,7 @@ export class HomePage {
 
   _subscription :Subscription;
 
-  constructor(
-          public router: Router,
-          private swimmersService: SwimmersService,
-          private config: SwimData,
-        private storage: Storage) {
+  constructor(public router: Router, private swimmersService: SwimmersService, private config: SwimData,private storage: Storage) {
     this.refresh();
     this._subscription = swimmersService.swimmersChange.subscribe((value) => {
       this.refreshSwimmers(value);

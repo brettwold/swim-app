@@ -6,7 +6,8 @@ const routes: Routes = [
   { path: 'swimmer/add', loadChildren: './swimmer/add.module#AddPageModule' },
   { path: 'swimmer/edit', loadChildren: './swimmer/swimmer.module#SwimmerEditPageModule' },
   { path: 'times', loadChildren: './times/times.module#TimesPageModule' },
-  { path: 'times/history/:race_type', loadChildren: './times/history.module#HistoryPageModule' }
+  { path: 'times/history/:race_type', loadChildren: './times/history.module#HistoryPageModule' },
+  { path: 'records', loadChildren: './records/records.module#RecordsPageModule' },
 ];
 @NgModule({
   imports: [

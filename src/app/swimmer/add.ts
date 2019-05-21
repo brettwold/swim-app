@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { TimesPage }          from '../times/times';
-import { SwimmerEditPage }    from '../swimmer/swimmer';
-
 import { Swimmer }            from '../models/swimmer';
 
 import { SwimData }           from '../providers/swimdata';

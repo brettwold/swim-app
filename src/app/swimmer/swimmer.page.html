@@ -22,7 +22,7 @@
     <ion-item>
       <ion-label stacked>Gender</ion-label>
       <ion-select [(ngModel)]="swimmer.gender">
-        <ion-select-option *ngFor="let gender of genders | values:'code'" value="{{gender.code}}">{{gender.name}}</ion-select-option>
+        <ion-select-option *ngFor="let gender of genders | keyvalue" value="{{gender.key}}">{{gender.value}}</ion-select-option>
       </ion-select>
     </ion-item>
   </ion-list>

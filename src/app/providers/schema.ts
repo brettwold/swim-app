@@ -7,17 +7,19 @@ var dbSchema;
 @Injectable()
 export class Schema {
 
-  public swimtimes :any;
+  public swimtimes: any;
+  public records: any;
 
-  constructor(public db :any) {
+  constructor(public db: any) {
     this.swimtimes = db.getSchema().table('swimtimes');
+    this.records = db.getSchema().table('records');
   }
 
   static buildSchema(platform: Platform) :Promise<Schema> {
     return new Promise((resolve, reject) => {
 
       if(!dbSchema) {
-        let schemaBuilder = lf.schema.create('swimdata', 3);
+        let schemaBuilder = lf.schema.create('swimdata', 4);
 
         schemaBuilder.createTable('swimtimes').
             addColumn('swimmer_regno', lf.Type.INTEGER).
@@ -37,6 +39,17 @@ export class Schema {
             addPrimaryKey(['swimmer_regno', 'race_type', 'date', 'time']).
             addIndex('idxDate', ['date'], false, lf.Order.DESC).
             addNullable(['time_orig', 'license', 'level', 'fina_points', 'round', 'meet_name', 'conv']);
+
+        schemaBuilder.createTable('records').
+            addColumn('race_type', lf.Type.INTEGER).
+            addColumn('gender', lf.Type.STRING).
+            addColumn('age', lf.Type.INTEGER).
+            addColumn('name', lf.Type.STRING).
+            addColumn('date_set', lf.Type.STRING).
+            addColumn('unix', lf.Type.INTEGER).
+            addColumn('time', lf.Type.INTEGER).
+            addColumn('time_orig', lf.Type.STRING).
+            addPrimaryKey(['race_type', 'gender', 'age']);
 
         let connectionOptions = { storeType: lf.schema.DataStoreType.INDEXED_DB, onUpgrade: this.onUpgrade };
         if (platform.is('ios') || platform.is('android')) {

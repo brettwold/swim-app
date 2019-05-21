@@ -16,6 +16,7 @@ import { EnvService } from './providers/env.service';
 import { SwimmersService } from './providers/swimmers';
 import { SwimtimesService } from './providers/swimtimes';
 import { AsaService } from './providers/asa.service';
+import { RecordsService } from './providers/records.service';
 import { TimeUtils } from './providers/timeutils.service';
 import { SwimData } from './providers/swimdata';
 
@@ -34,6 +35,7 @@ import { SwimData } from './providers/swimdata';
     AsaService,
     TimeUtils,
     SwimData,
+    RecordsService,
     HTTP,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

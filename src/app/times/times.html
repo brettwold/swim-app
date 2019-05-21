@@ -40,12 +40,12 @@
               <h2>{{ config.races[time.race_type].name }}</h2>
               <ion-label text-wrap>{{ time.meet_name }}</ion-label>
               <ion-label>{{ time.venue }}</ion-label>
-              <ion-label>{{ time.date | date:'dd-MMM-yyyy' }}</ion-label>
             </ion-col>
             <ion-col size="4">
               <div class="ion-text-end">
                 <h2><display-time [time]="time.time">{{ time.time }}</display-time></h2>
                 <ion-note><display-time [time]="time.conv">{{ time.conv }}</display-time></ion-note>
+                <ion-label>{{ time.date | date:'dd-MMM-yyyy' }}</ion-label>
               </div>
             </ion-col>
           </ion-row>

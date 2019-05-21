@@ -9,26 +9,18 @@ import { Swimmer }          from '../models/swimmer';
 
 @Component({
   selector: 'swimmer',
-  templateUrl: 'swimmer.html'
+  templateUrl: 'swimmer.page.html'
 })
 export class SwimmerEditPage {
   errorMessage: string;
   swimmer: Swimmer;
   mode = 'Observable';
-  config: any = {};
-  genders: Array<any> = new Array();
+  genders: Map<string, any>;
   showSaveButton :boolean = true;
 
-  constructor(public router: Router,
-      private asaService: AsaService,
-      private swimData: SwimData,
-      private swimmersService: SwimmersService) {
-            this.swimmer = swimmersService.getCurrentSwimmer();
-            this.config = swimData;
-
-            for(let gender in this.config.genders) {
-              this.genders.push({code: gender, name: this.config.genders[gender] });
-            }
+  constructor(public router: Router, private asaService: AsaService, private swimData: SwimData, private swimmersService: SwimmersService) {
+    this.swimmer = swimmersService.getCurrentSwimmer();
+    this.genders = swimData.genders;
   }
 
   public save(swimmer: Swimmer) {

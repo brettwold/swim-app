@@ -46,6 +46,18 @@ export class DefaultSwimData {
       12: ["13/14", "13 to 14"],
       13: ["15/16", "15 to 16"]
     },
+    record_groups: {
+      "9": { age: 9, min: 9, max: 9, description: "Age 9"},
+      "10": { age: 10, min: 10, max: 10, description: "Age 10"},
+      "11": { age: 11, min: 11, max: 11, description: "Age 11"},
+      "12": { age: 12, min: 12, max: 12, description: "Age 12"},
+      "13": { age: 13, min: 13, max: 13, description: "Age 13"},
+      "14": { age: 14, min: 14, max: 14, description: "Age 14"},
+      "15": { age: 15, min: 15, max: 15, description: "Age 15"},
+      "16": { age: 16, min: 16, max: 16, description: "Age 16"},
+      "Open": { age: 17, min: 17, max: 1001, description: "Open"},
+      "All": { age: 0, min: 0, max: 1001, description: "All"}
+    },
     strokes: {
       "FS": "Freestyle",
       "BK": "Backstroke",
@@ -53,7 +65,7 @@ export class DefaultSwimData {
       "BF": "Butterfly",
       "IM": "Individual medley",
       "MR": "Medley relay",
-      "FR": "Freestyle relay",
+      "FR": "Freestyle relay"
     },
     races: {
       101: { id: 101, name: "25m Freestyle", stroke: "FS", course_type: "SC", distance: 25, lengths: 1, team: false, asa_course: "S", asa_stroke: 99 },
@@ -106,7 +118,7 @@ export class DefaultSwimData {
       220: { id: 220, name: "4x200m Medley relay", stroke: "MR", course_type: "LC", distance: 800, lengths: 16, team: true },
       221: { id: 221, name: "4x50m Freestyle relay", stroke: "FR", course_type: "LC", distance: 200, lengths: 4, team: true },
       222: { id: 222, name: "4x100m Freestyle relay", stroke: "FR", course_type: "LC", distance: 400, lengths: 8, team: true },
-      223: { id: 223, name: "4x200m Medley relay", stroke: "FR", course_type: "LC", distance: 800, lengths: 16, team: true },
+      223: { id: 223, name: "4x200m Medley relay", stroke: "FR", course_type: "LC", distance: 800, lengths: 16, team: true }
     },
     event_types: [
       {name: "Heat declared winner", code: "HDW"},
@@ -174,6 +186,9 @@ export class DefaultSwimData {
       "SCCX": { name: "" },
       "WARY": { name: "" },
       "WASA": { name: "" }
+    },
+    clubs: {
+      "SBOW": {name: "Swim Bournemouth"}
     }
   }
 }
